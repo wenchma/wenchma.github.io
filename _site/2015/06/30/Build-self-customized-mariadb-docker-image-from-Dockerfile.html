@@ -1,0 +1,413 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+<title>Build self-customized mariadb Docker image from Dockerfile | Mars's Blog</title>
+<meta name="author" content="Mars Ma">
+
+
+<link rel="shortcut icon" href="" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/font-awesome.css">
+<link rel="stylesheet" href="/js/prettify/prettify.css">
+<link rel="stylesheet" href="/css/base.css">
+<link href="/pages/atom.xml" rel="alternate" title="Mars's Blog" type="application/atom+xml">
+
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-sm-13 col-xs-13 aside visible-md visible-lg">
+  <div class="row">
+    <div class="col-md-2 col-xs-2 aside1">
+      <br>
+      <a class="pjaxlink" href="/"><img src="" class="img-ronuded avatar" style="border-width:0px; border-color:#000"></a>
+      <br><br><br><br>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="/index.html" class="fa fa-home fa-lg"></a></li>
+        
+         <li><a href="#tech" data-toggle="tab">tech</a></li>
+        
+         <li><a href="#life" data-toggle="tab">life</a></li>
+        
+        <li><a href="#tags" data-toggle="tab">Tags</a></li>  
+        <li><a class="pjaxlink" href="/pages/archive.html">Archive</a></li>
+        <li><a class="pjaxlink" href="/pages/about.html">About</a></li>  
+        <!-- <li><a href="#tags" data-toggle="tab"><i class="fa fa-tags fa-lg"></i></a></li>
+        <li><a class="pjaxlink" href="/pages/archive.html"><i class="fa fa-archive fa-lg"></i></a></li>
+        <li><a class="pjaxlink" href="/pages/about.html"><i class="fa fa-user fa-lg"></i></a></li>
+        这是原来现实汉字的代码，我改为了图标 -->
+      </ul>
+      <div class="aside1_bottom">
+        <table class="table table-condensed">
+          <tr>
+            <td><a href="/pages/atom.xml" target="_blank"><i class="fa fa-rss fa-lg" style="color:#fff;"></i></a></td>
+            <td><a href="mailto:wenchma@gmail.com"><i class="fa fa-envelope-o fa-lg" style="color:#fff;"></i></a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-10 col-xs-10 aside2">
+      <div class="row">
+        <div class="tab-content"> 
+           
+            <div class="tab-pane" id="tech">
+              <div class="list-group">
+                <!--<h2 class="center">tech</h2>-->     <!--原来aside2上面的大标题-->
+                
+                  <a href="/2015/06/30/Build-self-customized-mariadb-docker-image-from-Dockerfile.html" class="list-group-item-lay pjaxlink">Build self-customized mariadb Docker image from Dockerfile</a>
+                
+                  <a href="/2015/06/19/GRE-Tunnels-in-OpenStack-Neutron.html" class="list-group-item-lay pjaxlink">GRE Tunnels in OpenStack Neutron</a>
+                
+                  <a href="/2015/05/25/welcome-to-jekyll.html" class="list-group-item-lay pjaxlink">Welcome to Jekyll!</a>
+                
+                  <a href="/2015/05/25/linux.html" class="list-group-item-lay pjaxlink">Linux 1：登陆与在线求助man page</a>
+                
+              </div>
+            </div>
+           
+            <div class="tab-pane" id="life">
+              <div class="list-group">
+                <!--<h2 class="center">life</h2>-->     <!--原来aside2上面的大标题-->
+                
+                  <a href="/2015/05/25/welcome-to-jekyll.html" class="list-group-item-lay pjaxlink">Welcome to Jekyll!</a>
+                
+              </div>
+            </div>
+                
+          <div class="tab-pane" id="tags">
+            <div class="panel-group" id="accordion">
+              <!--<h2 class="center">Tags</h2>-->
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#Linux">Linux</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="Linux" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/05/25/linux.html' class="list-group-item pjaxlink">
+                        Linux 1：登陆与在线求助man page
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#Docker">Docker</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="Docker" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/06/30/Build-self-customized-mariadb-docker-image-from-Dockerfile.html' class="list-group-item pjaxlink">
+                        Build self-customized mariadb Docker image from Dockerfile
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <div class="col-md-13 col-lg-13 col-sm-13 col-xs-13 aside3">
+        <div id="container">
+          <div id="pjax">
+            <div class="row">
+  <div class="col-md-13 aside3-title">
+    <br>
+    <h2 id="#identifier">Build self-customized mariadb Docker image from Dockerfile</h2>
+    2015年06月30日
+  </div>
+  <div class="col-md-13 aside3-content">
+    <hr>
+    <div id="content">
+      <p>Docker 可以说是自OpenStack后现在最火的容器技术，可以方便快捷的完成应用程序的打包和部署，本例运行在Ubuntu 14.04 (LTS)虚拟机上，每个运行的容器实例(如nova instances)之间是相互隔离的。
+Docker images 是容器技术的基础，Docker有两种方式来更新和构建镜像:</p>
+
+<ol>
+  <li>We can update a container created from an image and commit the results to an image by <code>docker commit</code> command.</li>
+  <li>We can use a <code>Dockerfile</code> to specify instructions to create an image.</li>
+</ol>
+
+<p>让我们看看如何通过 Dockerfile 构建一个包含mariadb application 的Docker 镜像。</p>
+
+<h2 id="install-docker">1. Install Docker</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">wget</span> <span class="o">-</span><span class="n">qO</span><span class="o">-</span> <span class="ss">https</span><span class="p">:</span><span class="sr">//</span><span class="n">get</span><span class="o">.</span><span class="n">docker</span><span class="o">.</span><span class="n">com</span><span class="o">/</span> <span class="o">|</span> <span class="n">sh</span></code></pre></div>
+
+<p>详细的安装步骤可以参考<a href="http://docs.docker.com/installation/ubuntulinux/">官方安装文档</a>.</p>
+
+<h2 id="download-ubuntu-base-image-from-docker-hubdocker-hub">2. Download Ubuntu base image from <a href="https://hub.docker.com/">Docker Hub</a></h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">docker</span> <span class="n">run</span> <span class="ss">ubuntu</span><span class="p">:</span><span class="mi">14</span><span class="o">.</span><span class="mo">04</span>
+<span class="no">Unable</span> <span class="n">to</span> <span class="n">find</span> <span class="n">image</span> <span class="s1">&#39;ubuntu:14.04&#39;</span> <span class="n">locally</span>
+<span class="mi">14</span><span class="o">.</span><span class="mo">04</span><span class="p">:</span> <span class="no">Pulling</span> <span class="n">from</span> <span class="n">ubuntu</span>
+<span class="mi">428</span><span class="ss">b411c28f0</span><span class="p">:</span> <span class="no">Already</span> <span class="n">exists</span> 
+<span class="mi">435050075</span><span class="ss">b3f</span><span class="p">:</span> <span class="no">Already</span> <span class="n">exists</span> 
+<span class="mi">9</span><span class="ss">fd3c8c9af32</span><span class="p">:</span> <span class="no">Already</span> <span class="n">exists</span> 
+<span class="mi">6</span><span class="ss">d4946999d4f</span><span class="p">:</span> <span class="no">Already</span> <span class="n">exists</span> 
+<span class="ss">Digest</span><span class="p">:</span> <span class="ss">sha256</span><span class="p">:</span><span class="mi">59662</span><span class="n">c823007a7a6fbc411910b472cf4ed862e8f74603267ddfe20d5af4f9d79</span>
+<span class="ss">Status</span><span class="p">:</span> <span class="no">Downloaded</span> <span class="n">newer</span> <span class="n">image</span> <span class="k">for</span> <span class="ss">ubuntu</span><span class="p">:</span><span class="mi">14</span><span class="o">.</span><span class="mo">04</span>
+<span class="err">$</span> <span class="n">docker</span> <span class="n">images</span>
+<span class="no">REPOSITORY</span>          <span class="no">TAG</span>                 <span class="no">IMAGE</span> <span class="no">ID</span>            <span class="no">CREATED</span>             <span class="no">VIRTUAL</span> <span class="no">SIZE</span>
+<span class="n">ubuntu</span>              <span class="n">latest</span>              <span class="mi">6</span><span class="n">d4946999d4f</span>        <span class="mi">2</span> <span class="n">weeks</span> <span class="n">ago</span>         <span class="mi">188</span><span class="o">.</span><span class="mi">3</span> <span class="no">MB</span>
+<span class="n">ubuntu</span>              <span class="mi">14</span><span class="o">.</span><span class="mo">04</span>               <span class="mi">6</span><span class="n">d4946999d4f</span>        <span class="mi">2</span> <span class="n">weeks</span> <span class="n">ago</span>         <span class="mi">188</span><span class="o">.</span><span class="mi">3</span> <span class="no">MB</span></code></pre></div>
+
+<p>This command downloads the specified image and runs it in a container.</p>
+
+<h2 id="dockerfile">3. 创建Dockerfile</h2>
+
+<p>创建一个工作目录，如 dockerfiles ，然后创建一个名为 Dockerfile 的文本文件，编写内容如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Sets the base image</span>
+<span class="no">FROM</span> <span class="ss">ubuntu</span><span class="p">:</span><span class="mi">14</span><span class="o">.</span><span class="mo">04</span>
+
+<span class="c1"># Set the Author of the generated image</span>
+<span class="no">MAINTAINER</span> <span class="n">wenchma</span> <span class="o">&lt;</span><span class="n">mars914</span><span class="err">@</span><span class="mi">126</span><span class="o">.</span><span class="n">com</span><span class="o">&gt;</span>
+
+<span class="c1"># Set the environment variables inside container</span>
+<span class="no">ENV</span> <span class="no">MYSQL_ROOT_PASSWORD</span> <span class="n">mypassword</span>
+<span class="no">ENV</span> <span class="no">MYSQL_DATADIR</span> <span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">mysql</span>
+
+<span class="c1"># Set the MariaDB public key and repository</span>
+<span class="no">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">adv</span> <span class="o">--</span><span class="n">recv</span><span class="o">-</span><span class="n">keys</span> <span class="o">--</span><span class="n">keyserver</span> <span class="ss">hkp</span><span class="p">:</span><span class="sr">//</span><span class="n">keyserver</span><span class="o">.</span><span class="n">ubuntu</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">80</span> <span class="mh">0xcbcb082a1bb943db</span>
+<span class="no">RUN</span> <span class="n">echo</span> <span class="s1">&#39;deb http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main&#39;</span> <span class="o">|</span> <span class="n">tee</span> <span class="sr">/etc/</span><span class="n">apt</span><span class="o">/</span><span class="n">sources</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">mariadb</span><span class="o">.</span><span class="n">list</span>
+
+<span class="c1"># update the MariaDB repo and install the packages</span>
+<span class="no">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="no">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="o">-</span><span class="n">q</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span>
+
+<span class="c1"># set MariaDB data dir and log dir</span>
+<span class="no">RUN</span> <span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">mysql</span> <span class="p">\</span>
+  <span class="o">&amp;&amp;</span> <span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">mysql</span> <span class="p">\</span>
+  <span class="o">&amp;&amp;</span> <span class="n">chown</span> <span class="ss">mysql</span><span class="p">:</span><span class="n">mysql</span> <span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">mysql</span>
+
+<span class="c1"># set the port in container to expose to host</span>
+<span class="no">EXPOSE</span> <span class="mi">3306</span></code></pre></div>
+
+<h2 id="docker-mariadb-">4. 构建Docker MariaDB 镜像</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">wenchma</span><span class="o">/</span><span class="ss">ubuntu</span><span class="p">:</span><span class="n">mariadb</span> <span class="o">.</span>
+<span class="no">Sending</span> <span class="n">build</span> <span class="n">context</span> <span class="n">to</span> <span class="no">Docker</span> <span class="n">daemon</span> <span class="mi">20</span><span class="o">.</span><span class="mi">15</span> <span class="no">MB</span>
+<span class="no">Sending</span> <span class="n">build</span> <span class="n">context</span> <span class="n">to</span> <span class="no">Docker</span> <span class="n">daemon</span> 
+<span class="no">Step</span> <span class="mi">0</span> <span class="p">:</span> <span class="no">FROM</span> <span class="ss">ubuntu</span><span class="p">:</span><span class="mi">14</span><span class="o">.</span><span class="mo">04</span>
+ <span class="o">---&gt;</span> <span class="mi">6</span><span class="n">d4946999d4f</span>
+<span class="no">Step</span> <span class="mi">1</span> <span class="p">:</span> <span class="no">MAINTAINER</span> <span class="n">wenchma</span> <span class="o">&lt;</span><span class="n">mars914</span><span class="err">@</span><span class="mi">126</span><span class="o">.</span><span class="n">com</span><span class="o">&gt;</span>
+ <span class="o">---&gt;</span> <span class="no">Using</span> <span class="n">cache</span>
+ <span class="o">---&gt;</span> <span class="n">ce6687ba3415</span>
+<span class="no">Step</span> <span class="mi">2</span> <span class="p">:</span> <span class="no">ENV</span> <span class="no">MYSQL_ROOT_PASSWORD</span> <span class="n">mypassword</span>
+ <span class="o">---&gt;</span> <span class="no">Using</span> <span class="n">cache</span>
+ <span class="o">---&gt;</span> <span class="mi">711</span><span class="n">c5d00c490</span>
+<span class="no">Step</span> <span class="mi">3</span> <span class="p">:</span> <span class="no">ENV</span> <span class="no">MYSQL_DATADIR</span> <span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">mysql</span>
+ <span class="o">---&gt;</span> <span class="no">Using</span> <span class="n">cache</span>
+ <span class="o">---&gt;</span> <span class="mi">0</span><span class="n">aca6d1fa456</span>
+<span class="no">Step</span> <span class="mi">4</span> <span class="p">:</span> <span class="no">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">adv</span> <span class="o">--</span><span class="n">recv</span><span class="o">-</span><span class="n">keys</span> <span class="o">--</span><span class="n">keyserver</span> <span class="ss">hkp</span><span class="p">:</span><span class="sr">//</span><span class="n">keyserver</span><span class="o">.</span><span class="n">ubuntu</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">80</span> <span class="mh">0xcbcb082a1bb943db</span>
+ <span class="o">---&gt;</span> <span class="no">Using</span> <span class="n">cache</span>
+ <span class="o">---&gt;</span> <span class="n">f14b6903246f</span>
+<span class="no">Step</span> <span class="mi">5</span> <span class="p">:</span> <span class="no">RUN</span> <span class="n">echo</span> <span class="s1">&#39;deb http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main&#39;</span> <span class="o">|</span> <span class="n">tee</span> <span class="sr">/etc/</span><span class="n">apt</span><span class="o">/</span><span class="n">sources</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">mariadb</span><span class="o">.</span><span class="n">list</span>
+ <span class="o">---&gt;</span> <span class="no">Running</span> <span class="k">in</span> <span class="mi">8</span><span class="n">caa96d12fa1</span>
+<span class="n">deb</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//s</span><span class="n">fo1</span><span class="o">.</span><span class="n">mirrors</span><span class="o">.</span><span class="n">digitalocean</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">mariadb</span><span class="o">/</span><span class="n">repo</span><span class="o">/</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">ubuntu</span> <span class="n">trusty</span> <span class="n">main</span>
+ <span class="o">---&gt;</span> <span class="mi">12231367</span><span class="n">c510</span>
+<span class="no">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="mi">8</span><span class="n">caa96d12fa1</span>
+<span class="no">Step</span> <span class="mi">6</span> <span class="p">:</span> <span class="no">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+ <span class="o">---&gt;</span> <span class="no">Running</span> <span class="k">in</span> <span class="n">cbd89fde87d3</span>
+<span class="ss">Get</span><span class="p">:</span><span class="mi">1</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//s</span><span class="n">fo1</span><span class="o">.</span><span class="n">mirrors</span><span class="o">.</span><span class="n">digitalocean</span><span class="o">.</span><span class="n">com</span> <span class="n">trusty</span> <span class="no">InRelease</span> <span class="o">[</span><span class="mi">2488</span> <span class="n">B</span><span class="o">]</span>
+<span class="no">Ign</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">archive</span><span class="o">.</span><span class="n">ubuntu</span><span class="o">.</span><span class="n">com</span> <span class="n">trusty</span> <span class="no">InRelease</span>
+<span class="no">Ign</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">archive</span><span class="o">.</span><span class="n">ubuntu</span><span class="o">.</span><span class="n">com</span> <span class="n">trusty</span><span class="o">-</span><span class="n">updates</span> <span class="no">InRelease</span>
+
+<span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span>
+
+<span class="no">Reading</span> <span class="n">package</span> <span class="n">lists</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+ <span class="o">---&gt;</span> <span class="mi">19</span><span class="n">bd40f631e4</span>
+<span class="no">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="n">cbd89fde87d3</span>
+<span class="no">Step</span> <span class="mi">7</span> <span class="p">:</span> <span class="no">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="o">-</span><span class="n">q</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span>
+ <span class="o">---&gt;</span> <span class="no">Running</span> <span class="k">in</span> <span class="mi">9376</span><span class="n">a559e85e</span>
+<span class="no">Reading</span> <span class="n">package</span> <span class="n">lists</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="no">Building</span> <span class="n">dependency</span> <span class="n">tree</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="no">Reading</span> <span class="n">state</span> <span class="n">information</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="no">The</span> <span class="n">following</span> <span class="n">extra</span> <span class="n">packages</span> <span class="n">will</span> <span class="n">be</span> <span class="ss">installed</span><span class="p">:</span>
+  <span class="n">libaio1</span> <span class="n">libdbd</span><span class="o">-</span><span class="n">mysql</span><span class="o">-</span><span class="n">perl</span> <span class="n">libdbi</span><span class="o">-</span><span class="n">perl</span> <span class="n">libhtml</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">perl</span>
+  <span class="n">libmariadbclient18</span> <span class="n">libmysqlclient18</span> <span class="n">libreadline5</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">common</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span> <span class="n">mysql</span><span class="o">-</span><span class="n">common</span> <span class="n">psmisc</span>
+<span class="no">Suggested</span> <span class="ss">packages</span><span class="p">:</span>
+  <span class="n">libclone</span><span class="o">-</span><span class="n">perl</span> <span class="n">libmldbm</span><span class="o">-</span><span class="n">perl</span> <span class="n">libnet</span><span class="o">-</span><span class="n">daemon</span><span class="o">-</span><span class="n">perl</span> <span class="n">libplrpc</span><span class="o">-</span><span class="n">perl</span>
+  <span class="n">libsql</span><span class="o">-</span><span class="n">statement</span><span class="o">-</span><span class="n">perl</span> <span class="n">libipc</span><span class="o">-</span><span class="n">sharedcache</span><span class="o">-</span><span class="n">perl</span> <span class="n">libterm</span><span class="o">-</span><span class="n">readkey</span><span class="o">-</span><span class="n">perl</span> <span class="n">tinyca</span>
+  <span class="n">mailx</span> <span class="n">mariadb</span><span class="o">-</span><span class="nb">test</span>
+<span class="no">The</span> <span class="n">following</span> <span class="no">NEW</span> <span class="n">packages</span> <span class="n">will</span> <span class="n">be</span> <span class="ss">installed</span><span class="p">:</span>
+  <span class="n">libaio1</span> <span class="n">libdbd</span><span class="o">-</span><span class="n">mysql</span><span class="o">-</span><span class="n">perl</span> <span class="n">libdbi</span><span class="o">-</span><span class="n">perl</span> <span class="n">libhtml</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">perl</span>
+  <span class="n">libmariadbclient18</span> <span class="n">libmysqlclient18</span> <span class="n">libreadline5</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span>
+  <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">common</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span>
+  <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span> <span class="n">mysql</span><span class="o">-</span><span class="n">common</span> <span class="n">psmisc</span>
+<span class="mi">0</span> <span class="n">upgraded</span><span class="p">,</span> <span class="mi">16</span> <span class="n">newly</span> <span class="n">installed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">remove</span> <span class="ow">and</span> <span class="mi">11</span> <span class="ow">not</span> <span class="n">upgraded</span><span class="o">.</span>
+<span class="no">Need</span> <span class="n">to</span> <span class="n">get</span> <span class="mi">13</span><span class="o">.</span><span class="mi">9</span> <span class="no">MB</span> <span class="n">of</span> <span class="n">archives</span><span class="o">.</span>
+<span class="no">After</span> <span class="n">this</span> <span class="n">operation</span><span class="p">,</span> <span class="mi">137</span> <span class="no">MB</span> <span class="n">of</span> <span class="n">additional</span> <span class="n">disk</span> <span class="n">space</span> <span class="n">will</span> <span class="n">be</span> <span class="n">used</span><span class="o">.</span>
+<span class="ss">Get</span><span class="p">:</span><span class="mi">1</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//s</span><span class="n">fo1</span><span class="o">.</span><span class="n">mirrors</span><span class="o">.</span><span class="n">digitalocean</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">mariadb</span><span class="o">/</span><span class="n">repo</span><span class="o">/</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span> <span class="n">trusty</span><span class="o">/</span><span class="n">main</span> <span class="n">mysql</span><span class="o">-</span><span class="n">common</span> <span class="n">all</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">20</span><span class="o">+</span><span class="n">maria</span><span class="o">-</span><span class="mi">1</span><span class="o">~</span><span class="n">trusty</span> <span class="o">[</span><span class="mi">8388</span> <span class="n">B</span><span class="o">]</span>
+<span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span>
+<span class="ss">Get</span><span class="p">:</span><span class="mi">16</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">archive</span><span class="o">.</span><span class="n">ubuntu</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span> <span class="n">trusty</span><span class="o">/</span><span class="n">main</span> <span class="n">libhtml</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">perl</span> <span class="n">all</span> <span class="mi">2</span><span class="o">.</span><span class="mi">95</span><span class="o">-</span><span class="mi">1</span> <span class="o">[</span><span class="mi">65</span><span class="o">.</span><span class="mi">5</span> <span class="n">kB</span><span class="o">]</span>
+<span class="no">Preparing</span> <span class="n">to</span> <span class="n">unpack</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">/psmisc_22</span><span class="o">.</span><span class="mi">20</span><span class="o">-</span><span class="mi">1</span><span class="n">ubuntu2_amd64</span><span class="o">.</span><span class="n">deb</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="no">Unpacking</span> <span class="n">psmisc</span> <span class="p">(</span><span class="mi">22</span><span class="o">.</span><span class="mi">20</span><span class="o">-</span><span class="mi">1</span><span class="n">ubuntu2</span><span class="p">)</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="no">Selecting</span> <span class="n">previously</span> <span class="n">unselected</span> <span class="n">package</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span>
+<span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span>
+<span class="no">Configuring</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span>
+<span class="o">-------------------------------</span>
+
+<span class="no">While</span> <span class="ow">not</span> <span class="n">mandatory</span><span class="p">,</span> <span class="n">it</span> <span class="n">is</span> <span class="n">highly</span> <span class="n">recommended</span> <span class="n">that</span> <span class="n">you</span> <span class="n">set</span> <span class="n">a</span> <span class="n">password</span> <span class="k">for</span> <span class="n">the</span> 
+<span class="no">MariaDB</span> <span class="n">administrative</span> <span class="s2">&quot;root&quot;</span> <span class="n">user</span><span class="o">.</span>
+
+<span class="no">If</span> <span class="n">this</span> <span class="n">field</span> <span class="n">is</span> <span class="n">left</span> <span class="n">blank</span><span class="p">,</span> <span class="n">the</span> <span class="n">password</span> <span class="n">will</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">changed</span><span class="o">.</span>
+
+<span class="no">New</span> <span class="n">password</span> <span class="k">for</span> <span class="n">the</span> <span class="no">MariaDB</span> <span class="s2">&quot;root&quot;</span> <span class="ss">user</span><span class="p">:</span> 
+<span class="no">Use</span> <span class="n">of</span> <span class="n">uninitialized</span> <span class="n">value</span> <span class="vg">$_</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="k">in</span> <span class="n">join</span> <span class="ow">or</span> <span class="n">string</span> <span class="n">at</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">perl5</span><span class="o">/</span><span class="no">Debconf</span><span class="o">/</span><span class="no">DbDriver</span><span class="o">/</span><span class="no">Stack</span><span class="o">.</span><span class="n">pm</span> <span class="n">line</span> <span class="mi">111</span><span class="o">.</span>
+<span class="no">Use</span> <span class="n">of</span> <span class="n">uninitialized</span> <span class="n">value</span> <span class="vg">$val</span> <span class="k">in</span> <span class="n">substitution</span> <span class="p">(</span><span class="n">s</span><span class="o">///</span><span class="p">)</span> <span class="n">at</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">perl5</span><span class="o">/</span><span class="no">Debconf</span><span class="o">/</span><span class="no">Format</span><span class="o">/</span><span class="mi">822</span><span class="o">.</span><span class="n">pm</span> <span class="n">line</span> <span class="mi">83</span><span class="p">,</span> <span class="o">&lt;</span><span class="no">GEN6</span><span class="o">&gt;</span> <span class="n">line</span> <span class="mi">1</span><span class="o">.</span>
+<span class="no">Use</span> <span class="n">of</span> <span class="n">uninitialized</span> <span class="n">value</span> <span class="vg">$val</span> <span class="k">in</span> <span class="n">concatenation</span> <span class="p">(</span><span class="o">.</span><span class="p">)</span> <span class="ow">or</span> <span class="n">string</span> <span class="n">at</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">perl5</span><span class="o">/</span><span class="no">Debconf</span><span class="o">/</span><span class="no">Format</span><span class="o">/</span><span class="mi">822</span><span class="o">.</span><span class="n">pm</span> <span class="n">line</span> <span class="mi">84</span><span class="p">,</span> <span class="o">&lt;</span><span class="no">GEN6</span><span class="o">&gt;</span> <span class="n">line</span> <span class="mi">1</span><span class="o">.</span>
+<span class="no">Unpacking</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">20</span><span class="o">+</span><span class="n">maria</span><span class="o">-</span><span class="mi">1</span><span class="o">~</span><span class="n">trusty</span><span class="p">)</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="no">Selecting</span> <span class="n">previously</span> <span class="n">unselected</span> <span class="n">package</span> <span class="n">libhtml</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">perl</span><span class="o">.</span>
+<span class="no">Preparing</span> <span class="n">to</span> <span class="n">unpack</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">/libhtml</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">perl_2</span><span class="o">.</span><span class="mi">95</span><span class="o">-</span><span class="mi">1</span><span class="n">_all</span><span class="o">.</span><span class="n">deb</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span>
+<span class="no">Configuring</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span>
+<span class="o">-------------------------------</span>
+
+<span class="no">While</span> <span class="ow">not</span> <span class="n">mandatory</span><span class="p">,</span> <span class="n">it</span> <span class="n">is</span> <span class="n">highly</span> <span class="n">recommended</span> <span class="n">that</span> <span class="n">you</span> <span class="n">set</span> <span class="n">a</span> <span class="n">password</span> <span class="k">for</span> <span class="n">the</span> 
+<span class="no">MariaDB</span> <span class="n">administrative</span> <span class="s2">&quot;root&quot;</span> <span class="n">user</span><span class="o">.</span>
+
+<span class="no">If</span> <span class="n">this</span> <span class="n">field</span> <span class="n">is</span> <span class="n">left</span> <span class="n">blank</span><span class="p">,</span> <span class="n">the</span> <span class="n">password</span> <span class="n">will</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">changed</span><span class="o">.</span>
+
+<span class="no">New</span> <span class="n">password</span> <span class="k">for</span> <span class="n">the</span> <span class="no">MariaDB</span> <span class="s2">&quot;root&quot;</span> <span class="ss">user</span><span class="p">:</span> 
+<span class="no">Use</span> <span class="n">of</span> <span class="n">uninitialized</span> <span class="n">value</span> <span class="vg">$_</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="k">in</span> <span class="n">join</span> <span class="ow">or</span> <span class="n">string</span> <span class="n">at</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">perl5</span><span class="o">/</span><span class="no">Debconf</span><span class="o">/</span><span class="no">DbDriver</span><span class="o">/</span><span class="no">Stack</span><span class="o">.</span><span class="n">pm</span> <span class="n">line</span> <span class="mi">111</span><span class="o">.</span>
+<span class="n">invoke</span><span class="o">-</span><span class="n">rc</span><span class="o">.</span><span class="n">d</span><span class="p">:</span> <span class="n">policy</span><span class="o">-</span><span class="n">rc</span><span class="o">.</span><span class="n">d</span> <span class="n">denied</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">stop</span><span class="o">.</span>
+<span class="n">invoke</span><span class="o">-</span><span class="n">rc</span><span class="o">.</span><span class="n">d</span><span class="p">:</span> <span class="n">policy</span><span class="o">-</span><span class="n">rc</span><span class="o">.</span><span class="n">d</span> <span class="n">denied</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">start</span><span class="o">.</span>
+<span class="no">Setting</span> <span class="n">up</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span> <span class="p">(</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">20</span><span class="o">+</span><span class="n">maria</span><span class="o">-</span><span class="mi">1</span><span class="o">~</span><span class="n">trusty</span><span class="p">)</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="no">Processing</span> <span class="n">triggers</span> <span class="k">for</span> <span class="n">ureadahead</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">100</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="mi">16</span><span class="p">)</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="no">Setting</span> <span class="n">up</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">server</span> <span class="p">(</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">20</span><span class="o">+</span><span class="n">maria</span><span class="o">-</span><span class="mi">1</span><span class="o">~</span><span class="n">trusty</span><span class="p">)</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="no">Processing</span> <span class="n">triggers</span> <span class="k">for</span> <span class="n">libc</span><span class="o">-</span><span class="n">bin</span> <span class="p">(</span><span class="mi">2</span><span class="o">.</span><span class="mi">19</span><span class="o">-</span><span class="mi">0</span><span class="n">ubuntu6</span><span class="o">.</span><span class="mi">6</span><span class="p">)</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+ <span class="o">---&gt;</span> <span class="mi">3367</span><span class="n">c0b221b9</span>
+<span class="no">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="mi">9376</span><span class="n">a559e85e</span>
+<span class="no">Step</span> <span class="mi">8</span> <span class="p">:</span> <span class="no">RUN</span> <span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="sr">/var/</span><span class="n">lib</span><span class="o">/</span><span class="n">mysql</span>   <span class="o">&amp;&amp;</span> <span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">mysql</span>   <span class="o">&amp;&amp;</span> <span class="n">chown</span> <span class="ss">mysql</span><span class="p">:</span><span class="n">mysql</span> <span class="sr">/var/</span><span class="n">log</span><span class="o">/</span><span class="n">mysql</span>
+ <span class="o">---&gt;</span> <span class="no">Running</span> <span class="k">in</span> <span class="n">af3cdc6b1a8b</span>
+ <span class="o">---&gt;</span> <span class="mi">5715</span><span class="n">c0920490</span>
+<span class="no">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="n">af3cdc6b1a8b</span>
+<span class="no">Step</span> <span class="mi">9</span> <span class="p">:</span> <span class="no">EXPOSE</span> <span class="mi">3306</span>
+ <span class="o">---&gt;</span> <span class="no">Running</span> <span class="k">in</span> <span class="n">ecacf80ce76e</span>
+ <span class="o">---&gt;</span> <span class="mi">6849</span><span class="n">bb03001e</span>
+<span class="no">Removing</span> <span class="n">intermediate</span> <span class="n">container</span> <span class="n">ecacf80ce76e</span>
+<span class="no">Successfully</span> <span class="n">built</span> <span class="mi">6849</span><span class="n">bb03001e</span></code></pre></div>
+
+<p>验证我们构建的镜像是否成功：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">docker</span> <span class="n">images</span>
+<span class="no">REPOSITORY</span>          <span class="no">TAG</span>                 <span class="no">IMAGE</span> <span class="no">ID</span>            <span class="no">CREATED</span>             <span class="no">VIRTUAL</span> <span class="no">SIZE</span>
+<span class="n">wenchma</span><span class="o">/</span><span class="n">ubuntu</span>      <span class="n">mariadb</span>             <span class="mi">6849</span><span class="n">bb03001e</span>        <span class="mi">9</span> <span class="n">seconds</span> <span class="n">ago</span>       <span class="mi">463</span><span class="o">.</span><span class="mi">5</span> <span class="no">MB</span>
+<span class="n">ubuntu</span>              <span class="mi">14</span><span class="o">.</span><span class="mo">04</span>               <span class="mi">6</span><span class="n">d4946999d4f</span>        <span class="mi">2</span> <span class="n">weeks</span> <span class="n">ago</span>         <span class="mi">188</span><span class="o">.</span><span class="mi">3</span> <span class="no">MB</span>
+<span class="n">ubuntu</span>              <span class="n">latest</span>              <span class="mi">6</span><span class="n">d4946999d4f</span>        <span class="mi">2</span> <span class="n">weeks</span> <span class="n">ago</span>         <span class="mi">188</span><span class="o">.</span><span class="mi">3</span> <span class="no">MB</span>
+<span class="err">$</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="n">wenchma</span><span class="o">/</span><span class="ss">ubuntu</span><span class="p">:</span><span class="n">mariadb</span> <span class="sr">/bin/</span><span class="n">bash</span>
+<span class="n">root</span><span class="vi">@d31eca25d0a9</span><span class="ss">:/</span><span class="c1"># ls</span>
+<span class="n">bin</span>  <span class="n">boot</span>  <span class="n">dev</span>  <span class="n">etc</span>  <span class="n">home</span>  <span class="n">lib</span>  <span class="n">lib64</span>  <span class="n">media</span>  <span class="n">mnt</span>  <span class="n">opt</span>  <span class="nb">proc</span>  <span class="n">root</span>  <span class="n">run</span>  <span class="n">sbin</span>  <span class="n">srv</span>  <span class="n">sys</span>  <span class="n">tmp</span>  <span class="n">usr</span>  <span class="n">var</span>
+<span class="n">root</span><span class="vi">@d31eca25d0a9</span><span class="ss">:/</span><span class="c1"># ls /var/lib/mysql/</span>
+<span class="n">aria_log</span><span class="o">.</span><span class="mo">00000001</span>  <span class="n">aria_log_control</span>  <span class="n">debian</span><span class="o">-</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="n">flag</span>  <span class="n">ib_logfile0</span>  <span class="n">ib_logfile1</span>  <span class="n">ibdata1</span>  <span class="n">mysql</span>  <span class="n">performance_schema</span>
+<span class="n">root</span><span class="vi">@d31eca25d0a9</span><span class="ss">:/</span><span class="c1"># /etc/init.d/mysql status</span>
+ <span class="o">*</span> <span class="no">MariaDB</span> <span class="n">is</span> <span class="n">stopped</span><span class="o">.</span>
+<span class="n">root</span><span class="vi">@d31eca25d0a9</span><span class="ss">:/</span><span class="c1"># /etc/init.d/mysql start </span>
+ <span class="o">*</span> <span class="no">Starting</span> <span class="no">MariaDB</span> <span class="n">database</span> <span class="n">server</span> <span class="n">mysqld</span>                                                                                                                                                            <span class="o">[</span> <span class="no">OK</span> <span class="o">]</span> 
+ <span class="o">*</span> <span class="no">Checking</span> <span class="k">for</span> <span class="n">corrupt</span><span class="p">,</span> <span class="ow">not</span> <span class="n">cleanly</span> <span class="n">closed</span> <span class="ow">and</span> <span class="n">upgrade</span> <span class="n">needing</span> <span class="n">tables</span><span class="o">.</span>
+<span class="n">root</span><span class="vi">@d31eca25d0a9</span><span class="ss">:/</span><span class="c1"># /etc/init.d/mysql status</span>
+ <span class="o">*</span> <span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">mysqladmin</span>  <span class="no">Ver</span> <span class="mi">9</span><span class="o">.</span><span class="mi">1</span> <span class="no">Distrib</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">20</span><span class="o">-</span><span class="no">MariaDB</span><span class="p">,</span> <span class="k">for</span> <span class="n">debian</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span> <span class="n">on</span> <span class="n">x86_64</span>
+<span class="no">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="no">Oracle</span><span class="p">,</span> <span class="no">MariaDB</span> <span class="no">Corporation</span> <span class="no">Ab</span> <span class="ow">and</span> <span class="n">others</span><span class="o">.</span>
+
+<span class="no">Server</span> <span class="n">version</span>		<span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">20</span><span class="o">-</span><span class="no">MariaDB</span><span class="o">-</span><span class="mi">1</span><span class="o">~</span><span class="n">trusty</span><span class="o">-</span><span class="n">log</span>
+<span class="no">Protocol</span> <span class="n">version</span>	<span class="mi">10</span>
+<span class="no">Connection</span>		<span class="no">Localhost</span> <span class="n">via</span> <span class="no">UNIX</span> <span class="n">socket</span>
+<span class="no">UNIX</span> <span class="n">socket</span>		<span class="sr">/var/</span><span class="n">run</span><span class="o">/</span><span class="n">mysqld</span><span class="o">/</span><span class="n">mysqld</span><span class="o">.</span><span class="n">sock</span>
+<span class="ss">Uptime</span><span class="p">:</span>			<span class="mi">9</span> <span class="n">sec</span>
+
+<span class="ss">Threads</span><span class="p">:</span> <span class="mi">1</span>  <span class="ss">Questions</span><span class="p">:</span> <span class="mi">705</span>  <span class="no">Slow</span> <span class="ss">queries</span><span class="p">:</span> <span class="mi">0</span>  <span class="ss">Opens</span><span class="p">:</span> <span class="mi">167</span>  <span class="no">Flush</span> <span class="ss">tables</span><span class="p">:</span> <span class="mi">1</span>  <span class="no">Open</span> <span class="ss">tables</span><span class="p">:</span> <span class="mi">31</span>  <span class="no">Queries</span> <span class="n">per</span> <span class="n">second</span> <span class="ss">avg</span><span class="p">:</span> <span class="mi">78</span><span class="o">.</span><span class="mi">333</span>
+<span class="n">root</span><span class="vi">@d31eca25d0a9</span><span class="ss">:/</span><span class="c1"># mysql</span>
+<span class="no">Welcome</span> <span class="n">to</span> <span class="n">the</span> <span class="no">MariaDB</span> <span class="n">monitor</span><span class="o">.</span>  <span class="no">Commands</span> <span class="k">end</span> <span class="n">with</span> <span class="p">;</span> <span class="ow">or</span> <span class="p">\</span><span class="n">g</span><span class="o">.</span>
+<span class="no">Your</span> <span class="no">MariaDB</span> <span class="n">connection</span> <span class="nb">id</span> <span class="n">is</span> <span class="mi">45</span>
+<span class="no">Server</span> <span class="ss">version</span><span class="p">:</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">20</span><span class="o">-</span><span class="no">MariaDB</span><span class="o">-</span><span class="mi">1</span><span class="o">~</span><span class="n">trusty</span><span class="o">-</span><span class="n">log</span> <span class="n">mariadb</span><span class="o">.</span><span class="n">org</span> <span class="n">binary</span> <span class="n">distribution</span>
+
+<span class="no">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="no">Oracle</span><span class="p">,</span> <span class="no">MariaDB</span> <span class="no">Corporation</span> <span class="no">Ab</span> <span class="ow">and</span> <span class="n">others</span><span class="o">.</span>
+
+<span class="no">Type</span> <span class="s1">&#39;help;&#39;</span> <span class="ow">or</span> <span class="s1">&#39;\h&#39;</span> <span class="k">for</span> <span class="n">help</span><span class="o">.</span> <span class="no">Type</span> <span class="s1">&#39;\c&#39;</span> <span class="n">to</span> <span class="n">clear</span> <span class="n">the</span> <span class="n">current</span> <span class="n">input</span> <span class="n">statement</span><span class="o">.</span>
+
+<span class="no">MariaDB</span> <span class="o">[</span><span class="p">(</span><span class="n">none</span><span class="p">)</span><span class="o">]&gt;</span> <span class="n">show</span> <span class="n">databases</span><span class="p">;</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="no">Database</span>           <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="n">information_schema</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">mysql</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">performance_schema</span> <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="mi">3</span> <span class="n">rows</span> <span class="k">in</span> <span class="n">set</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">00</span> <span class="n">sec</span><span class="p">)</span></code></pre></div>
+
+<p>自此，我们的镜像就构建成功了，当然你也可以<code>push</code> 你的镜像到<a href="https://hub.docker.com/">Docker Hub</a>, 这里面有全世界开发者贡献的镜像。</p>
+
+
+    </div>
+    <hr>
+    <div id="disqus_thread">
+  <button type="button" name="" class="btn btn-default show-commend">	
+  	<i class="fa fa-comment-o fa-lg" style="color: #16a095;"></i>     <!-- 修改显示评论按钮图标-->
+  </button>
+</div>
+
+  </div>
+  <!-- 目录 -->
+  <div id="content_table" style="position:fixed;right:20px;top:120px;display:none;">
+    <div class="panel panel-success">
+      <div class="panel-body" id="nav"></div>
+    </div>
+  </div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:fixed;right:15px;top:62px;">
+  <button id="content_btn" class="btn btn-primary" style="width:43px; height:34px;">
+    <i class="fa fa-lg fa-plus"></i>
+  </button>
+</div>
+<div style="position:fixed;right:15px;top:20px;">
+  <button id="nav_btn" class="btn btn-primary">
+    <i class="fa fa-lg fa-navicon"></i>
+  </button>
+</div>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script src="/js/jquery.pjax.js"></script>
+<script src="/js/prettify/prettify.js"></script>
+<script src="/js/base.js"></script>
+<script src="/js/jquery.scrollUp.js"></script>
+<script>
+    $('a[href="#"]').tab('show');
+</script>
+
+
+<!--button是右上方导航和显示目录的按钮-->
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', '', '');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+permalink: /:year/:month/:day/:title.html
+paginate: 10
+markdown: redcarpet
+
+# Author settings
+author:
+  name: Mars Ma
+  email: wenchma@gmail.com
+  link: https://wenchma.github.io
+  weibo: http://weibo.com/wenchma
+  github: http://github.com/wenchma
+
+# Site settings
+title: Mars's Blog
+email: wenchma@gmail.com
+description: Mars's Blog
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "https://wenchma.github.io" # the base hostname & protocol for your site
+rss_url: /pages/atom.xml
+twitter_username: wenchma
+github_username:  wenchma
+
+# Build settings
+markdown: kramdown
+
+locals:
+  tech: Tech
+  life: Life
+  tags: Tags
+  about: About
+  newest: 最新文章
+  archive: Archive

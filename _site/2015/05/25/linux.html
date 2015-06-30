@@ -1,0 +1,272 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+<title>Linux 1：登陆与在线求助man page | Mars's Blog</title>
+<meta name="author" content="Mars Ma">
+
+
+<link rel="shortcut icon" href="" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/font-awesome.css">
+<link rel="stylesheet" href="/js/prettify/prettify.css">
+<link rel="stylesheet" href="/css/base.css">
+<link href="/pages/atom.xml" rel="alternate" title="Mars's Blog" type="application/atom+xml">
+
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-lg-3 col-sm-13 col-xs-13 aside visible-md visible-lg">
+  <div class="row">
+    <div class="col-md-2 col-xs-2 aside1">
+      <br>
+      <a class="pjaxlink" href="/"><img src="" class="img-ronuded avatar" style="border-width:0px; border-color:#000"></a>
+      <br><br><br><br>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="/index.html" class="fa fa-home fa-lg"></a></li>
+        
+         <li><a href="#tech" data-toggle="tab">tech</a></li>
+        
+         <li><a href="#life" data-toggle="tab">life</a></li>
+        
+        <li><a href="#tags" data-toggle="tab">Tags</a></li>  
+        <li><a class="pjaxlink" href="/pages/archive.html">Archive</a></li>
+        <li><a class="pjaxlink" href="/pages/about.html">About</a></li>  
+        <!-- <li><a href="#tags" data-toggle="tab"><i class="fa fa-tags fa-lg"></i></a></li>
+        <li><a class="pjaxlink" href="/pages/archive.html"><i class="fa fa-archive fa-lg"></i></a></li>
+        <li><a class="pjaxlink" href="/pages/about.html"><i class="fa fa-user fa-lg"></i></a></li>
+        这是原来现实汉字的代码，我改为了图标 -->
+      </ul>
+      <div class="aside1_bottom">
+        <table class="table table-condensed">
+          <tr>
+            <td><a href="/pages/atom.xml" target="_blank"><i class="fa fa-rss fa-lg" style="color:#fff;"></i></a></td>
+            <td><a href="mailto:wenchma@gmail.com"><i class="fa fa-envelope-o fa-lg" style="color:#fff;"></i></a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-10 col-xs-10 aside2">
+      <div class="row">
+        <div class="tab-content"> 
+           
+            <div class="tab-pane" id="tech">
+              <div class="list-group">
+                <!--<h2 class="center">tech</h2>-->     <!--原来aside2上面的大标题-->
+                
+                  <a href="/2015/06/30/Build-self-customized-mariadb-docker-image-from-Dockerfile.html" class="list-group-item-lay pjaxlink">Build self-customized mariadb Docker image from Dockerfile</a>
+                
+                  <a href="/2015/06/19/GRE-Tunnels-in-OpenStack-Neutron.html" class="list-group-item-lay pjaxlink">GRE Tunnels in OpenStack Neutron</a>
+                
+                  <a href="/2015/05/25/welcome-to-jekyll.html" class="list-group-item-lay pjaxlink">Welcome to Jekyll!</a>
+                
+                  <a href="/2015/05/25/linux.html" class="list-group-item-lay pjaxlink">Linux 1：登陆与在线求助man page</a>
+                
+              </div>
+            </div>
+           
+            <div class="tab-pane" id="life">
+              <div class="list-group">
+                <!--<h2 class="center">life</h2>-->     <!--原来aside2上面的大标题-->
+                
+                  <a href="/2015/05/25/welcome-to-jekyll.html" class="list-group-item-lay pjaxlink">Welcome to Jekyll!</a>
+                
+              </div>
+            </div>
+                
+          <div class="tab-pane" id="tags">
+            <div class="panel-group" id="accordion">
+              <!--<h2 class="center">Tags</h2>-->
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#Linux">Linux</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="Linux" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/05/25/linux.html' class="list-group-item pjaxlink">
+                        Linux 1：登陆与在线求助man page
+                      </a>
+                    
+                  </div>
+                </div>
+               
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#Docker">Docker</a>
+                      <span class="badge pull-right">1</span>
+                    </h4>
+                  </div>
+                  <div id="Docker" class="panel-collapse collapse">
+                    
+                      <a  href='/2015/06/30/Build-self-customized-mariadb-docker-image-from-Dockerfile.html' class="list-group-item pjaxlink">
+                        Build self-customized mariadb Docker image from Dockerfile
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <div class="col-md-13 col-lg-13 col-sm-13 col-xs-13 aside3">
+        <div id="container">
+          <div id="pjax">
+            <div class="row">
+  <div class="col-md-13 aside3-title">
+    <br>
+    <h2 id="#identifier">Linux 1：登陆与在线求助man page</h2>
+    2015年05月25日
+  </div>
+  <div class="col-md-13 aside3-content">
+    <hr>
+    <div id="content">
+      <h3 id="section">查看内核版本</h3>
+<p><code>
+uname -r
+</code>
+稳定版本的偶数版，如2.6.x，适合于商业与家用环境使用；开发中版本，如2.5.x，适合开发特殊功能的环境。</p>
+
+<h3 id="section-1">登陆</h3>
+
+<p>Mac：（若以root身份登陆，将username改为root）</p>
+
+<p><code>
+ssh username@IPaddress
+</code>
+Linux：(若以root身份登陆，将username删掉）Linux默认root的提示符为#,而一般身份用户的提示符为$。</p>
+
+<p><code>
+su - username
+</code></p>
+
+<h3 id="linux">注销Linux</h3>
+<p>注销Linux并不意味着关机，只是用户离开系统。</p>
+
+<p><code>
+exit
+</code></p>
+
+<h3 id="section-2">基础命令的操作</h3>
+
+<p><code>
+command [-options] parameter1 parameter2 ···
+</code></p>
+
+<p><code>
+echo $LANG   #显示目前支持的语言
+LANG=en_US   #将语言改为英文系
+date         #显示日期与实践
+cal 10 2014  #显示日历
+bc           #计算器
+quit         #退出
+</code></p>
+
+<h3 id="section-3">重要的热键</h3>
+<p><code>[tab]</code>：连按两次，具有“命令补全”和“文件补齐”的作用。
+<code>[control]+c</code>：中断目前程序。
+<code>[control]+d</code>：键盘输入结束；直接离开文字界面（相当于``exit`）。</p>
+
+<h3 id="man-page">在线求助 man page</h3>
+
+<p><code>
+man command  #command是要查询的命令名称
+</code></p>
+
+<p>进入man命令后，可按<code>空格</code>往下翻页，按<code>q</code>键离开。
+在man page中，可以在任何时候输入<code>/keyword</code>来查询关键字，比如/date.</p>
+
+<h3 id="section-4">正确的关机方法</h3>
+<p><code>
+who         #查看目前有谁在线
+netstat -a  #查看网络的联机状态
+ps -aux     #查看后台执行的程序
+</code></p>
+
+<p>数据同步写入磁盘：为了防止不正常关机导致的内存数据没有来得及写入磁盘，在文字界面输入</p>
+
+<p><code>
+sync 
+</code></p>
+
+<p>惯用的关机命令：</p>
+
+<p><code>
+shutdown -h now     #立刻关机
+shutdown -h 20:25   #晚上8点25分关机
+shutdown -h +10     #过十分钟后关机
+shutdown -r now     #立刻重启
+shutdown -r +30 ‘The system will be reboot’    #再过30分钟关机，并显示后面的消息给所有在线用户
+shutdown -k now ‘The system will be reboot’    #仅发出警告，系统并不会真正关机
+</code></p>
+
+<p>重启、关机：reboot，halt，poweroff。务必用man去查询一下。</p>
+
+    </div>
+    <hr>
+    <div id="disqus_thread">
+  <button type="button" name="" class="btn btn-default show-commend">	
+  	<i class="fa fa-comment-o fa-lg" style="color: #16a095;"></i>     <!-- 修改显示评论按钮图标-->
+  </button>
+</div>
+
+  </div>
+  <!-- 目录 -->
+  <div id="content_table" style="position:fixed;right:20px;top:120px;display:none;">
+    <div class="panel panel-success">
+      <div class="panel-body" id="nav"></div>
+    </div>
+  </div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:fixed;right:15px;top:62px;">
+  <button id="content_btn" class="btn btn-primary" style="width:43px; height:34px;">
+    <i class="fa fa-lg fa-plus"></i>
+  </button>
+</div>
+<div style="position:fixed;right:15px;top:20px;">
+  <button id="nav_btn" class="btn btn-primary">
+    <i class="fa fa-lg fa-navicon"></i>
+  </button>
+</div>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script src="/js/jquery.pjax.js"></script>
+<script src="/js/prettify/prettify.js"></script>
+<script src="/js/base.js"></script>
+<script src="/js/jquery.scrollUp.js"></script>
+<script>
+    $('a[href="#"]').tab('show');
+</script>
+
+
+<!--button是右上方导航和显示目录的按钮-->
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', '', '');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
