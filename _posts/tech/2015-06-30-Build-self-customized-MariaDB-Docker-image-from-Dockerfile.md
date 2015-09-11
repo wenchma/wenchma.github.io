@@ -226,6 +226,43 @@ This command downloads the specified image and runs it in a container.
 	+--------------------+
 	3 rows in set (0.00 sec)
 
+	docker run 这种方式启动的container, 如果你退出后container也就关闭了.
+	docker start <container-id> # start your stopped container.
+	# list 所有状态的container
+	$ docker ps -a
+	CONTAINER ID        IMAGE                                                              COMMAND                CREATED             STATUS                      PORTS               NAMES
+	37c688837ad4        ubuntu:14.04                                                       "/bin/bash"            41 minutes ago      Exited (0) 32 seconds ago                       berserk_cori           
+	f957fa8f119b        ubuntu:14.04                                                       "/usr/sbin/sshd -D"    42 minutes ago                                                      evil_thompson          
+	35f84153ecbd        ubuntu:14.04                                                       "/usr/sbin/sshd-D"     42 minutes ago                                                      furious_darwin         
+	0a86cb72698a        wenchma/ubuntu:mariadb                                             "/bin/bash"            58 minutes ago      Exited (0) 44 minutes ago                       condescending_leakey   
+	d31eca25d0a9        wenchma/ubuntu:mariadb                                             "/bin/bash"            2 weeks ago         Exited (0) 2 weeks ago                          grave_engelbart        
+	503013aeaf75        f14b6903246f10fc59f83f42154f3854991dc2dd5bbf14e367555bcf42959c4c   "/bin/sh -c 'add-apt   2 weeks ago         Exited (127) 2 weeks ago                        focused_carson
+	$ docker start 37c688837ad4
+	37c688837ad4
+	$ docker ps
+	CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+	37c688837ad4        ubuntu:14.04        "/bin/bash"         56 minutes ago      Up 4 seconds                            berserk_cori
+	$ docker exec 37c688837ad4 ifconfig
+	eth0      Link encap:Ethernet  HWaddr 02:42:ac:11:00:1a  
+	          inet addr:172.17.0.26  Bcast:0.0.0.0  Mask:255.255.0.0
+        	  inet6 addr: fe80::42:acff:fe11:1a/64 Scope:Link
+	          UP BROADCAST RUNNING  MTU:1500  Metric:1
+	          RX packets:8 errors:0 dropped:0 overruns:0 frame:0
+	          TX packets:9 errors:0 dropped:0 overruns:0 carrier:0
+	          collisions:0 txqueuelen:0 
+	          RX bytes:648 (648.0 B)  TX bytes:738 (738.0 B)
+
+	lo        Link encap:Local Loopback  
+	          inet addr:127.0.0.1  Mask:255.0.0.0
+	          inet6 addr: ::1/128 Scope:Host
+	          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+	          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+	          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+	          collisions:0 txqueuelen:0 
+	          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+	docker run 是启动一个container然后执行命令，docker exec 是在一个running container执行命令.
+
 自此，我们的镜像就构建成功了，当然你也可以`push` 你的镜像到[Docker Hub][Docker-Hub], 这里面有全世界开发者贡献的镜像。
 
 [Docker-Hub]:  https://hub.docker.com/
