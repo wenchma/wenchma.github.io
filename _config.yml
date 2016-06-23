@@ -12,6 +12,7 @@ author:
 
 # Site settings
 title: Mars's Blog
+logo: /img/logo.jpg
 email: wenchma@gmail.com
 description: Mars's Blog
 baseurl: "" # the subpath of your site, e.g. /blog/
