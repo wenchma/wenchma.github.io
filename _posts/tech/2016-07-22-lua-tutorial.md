@@ -121,3 +121,7 @@ if type(response_body) == "table" then
     print("Not a table:", type(response_body))
   end
 ```
+
+> If for https request, you can use Lua ssl lib. `require("ssl.https")`, then add `protocol = "tlsv1"` to your request.
+  Install `ssl` lib by `sudo luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/` or `sudo luarocks install luasec`.
+  
