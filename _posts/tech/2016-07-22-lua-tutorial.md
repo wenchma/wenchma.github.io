@@ -6,9 +6,10 @@ categories: tech
 tags: lua
 ---
 
-## What's Lua ?
+## What is Lua ?
 
-![](../../img/lua.gif)
+![](/img/lua.png)
+
 Lua is a powerful, efficient, lightweight, embeddable scripting language, 用标准C语言编写并以源代码形式开放， 其设计目的是为了嵌入应用程序中，从而为应用程序提供灵活的扩展和定制功能。
 Lua 是巴西里约热内卢天主教大学（Pontifical Catholic University of Rio de Janeiro）里的一个研究小组，由Roberto Ierusalimschy、Waldemar Celes 和 Luiz Henrique de Figueiredo所组成并于1993年开发。 
 
@@ -124,4 +125,3 @@ if type(response_body) == "table" then
 
 > If for https request, you can use Lua ssl lib. `require("ssl.https")`, then add `protocol = "tlsv1"` to your request.
   Install `ssl` lib by `sudo luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/` or `sudo luarocks install luasec`.
-  
