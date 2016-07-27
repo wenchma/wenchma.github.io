@@ -123,5 +123,24 @@ if type(response_body) == "table" then
   end
 ```
 
-> If for https request, you can use Lua ssl lib. `require("ssl.https")`.
-  Install `ssl` lib by `sudo luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/` or `sudo luarocks install luasec`.
+> Note: If for https request, you can use Lua ssl lib. `require("ssl.https")`.
+  First, install Lua package manager: `sudo apt-get install luarocks`
+
+### Trouble Shooting
+
+If :
+
+```
+# luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/
+Warning: Failed searching manifest: Failed extracting manifest file
+Installing https://raw.githubusercontent.com/rocks-moonscript-org/moonrocks-mirror/master/luasec-0.6-1.rockspec...
+Using https://raw.githubusercontent.com/rocks-moonscript-org/moonrocks-mirror/master/luasec-0.6-1.rockspec... switching to 'build' mode
+
+Error: Could not find expected file openssl/ssl.h, or openssl/ssl.h for OPENSSL -- you may have to install OPENSSL in your system and/or pass OPENSSL_DIR
+or OPENSSL_INCDIR to the luarocks command. Example: luarocks install luasec OPENSSL_DIR=/usr/local
+```
+
+It means to install `openssl` lib first. To install openssl:
+$ sudo apt-get install  openssl libssl-dev.
+then,
+`sudo luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/` or `sudo luarocks install luasec`.
