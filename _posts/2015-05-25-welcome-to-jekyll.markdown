@@ -8,6 +8,34 @@ You’ll find this post in your `_posts` directory. Go ahead and edit it and re-
 
 To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
 
+Or quickly run the following cmd to auto-generate a new post:
+
+```bash
+$ ./jekyll-page "new post example" tech
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	_pages/
+	_posts/2016-08-01-new-post-example.md
+
+$ cat _posts/2016-08-01-new-post-example.md 
+---
+layout: page
+title: "new post example"
+category: tech
+date: 2016-08-01 10:58:10
+---
+<h1> {{ page.title }} </h1>
+---
+1. TOC
+{:toc}
+---
+```
+
 Jekyll also offers powerful support for code snippets:
 
 	def print_hi(name)
