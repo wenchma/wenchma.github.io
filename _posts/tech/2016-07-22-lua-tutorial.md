@@ -5,10 +5,6 @@ date:   2016-07-22 09:40:42
 categories: tech
 tags: lua
 ---
----
-1. TOC
-{:toc}
----
 
 ## What is Lua ?
 
