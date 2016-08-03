@@ -29,11 +29,6 @@ title: "new post example"
 category: tech
 date: 2016-08-01 10:58:10
 ---
-<h1> {{ page.title }} </h1>
----
-1. TOC
-{:toc}
----
 ```
 
 Jekyll also offers powerful support for code snippets:
