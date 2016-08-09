@@ -190,6 +190,10 @@ table {
     border-spacing: 0
 }
 
+table tr:nth-child(2n) {
+    background-color: #f8f8f8
+}
+
 td, th {
     padding: 6px 13px;
     border: solid 1.5px #ddd
