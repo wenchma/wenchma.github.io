@@ -52,8 +52,17 @@ $ figlet welcome -f fonts/slant.flf
 | |/ |/ /  __/ / /__/ /_/ / / / / / /  __/
 |__/|__/\___/_/\___/\____/_/ /_/ /_/\___/ 
 
-
 ```
+
+### SSH welcome banner
+
+Edit /etc/ssh/ssh-banner or /etc/issue
+        
+Edit /etc/ssh/sshd_config,modify the line of #Banner none：
+# no default banner path
+Banner /etc/ssh/ssh-banner（or/etc/issue）
+
+`$ /etc/init.d/sshd restart #restart sshd Service`
 
 ## Reference
 
