@@ -56,13 +56,40 @@ $ figlet welcome -f fonts/slant.flf
 
 ### SSH welcome banner
 
-Edit /etc/ssh/ssh-banner or /etc/issue
+Edit /etc/ssh/ssh-banner or /etc/issue, copy the following figleted words:
+
+```
+\ \      / / ____| |   / ___/ _ \|  \/  | ____| |_   _/ _ \ 
+ \ \ /\ / /|  _| | |  | |  | | | | |\/| |  _|     | || | | |
+  \ V  V / | |___| |__| |__| |_| | |  | | |___    | || |_| |
+   \_/\_/  |_____|_____\____\___/|_|  |_|_____|   |_| \___/                                                            
+ __  __    _    ____  ____  
+|  \/  |  / \  |  _ \/ ___| 
+| |\/| | / _ \ | |_) \___ \ 
+| |  | |/ ___ \|  _ < ___) |
+|_|  |_/_/   \_\_| \_\____/
+```
         
 Edit /etc/ssh/sshd_config,modify the line of #Banner none：
 # no default banner path
 Banner /etc/ssh/ssh-banner（or/etc/issue）
 
-`$ /etc/init.d/sshd restart #restart sshd Service`
+```
+$ /etc/init.d/sshd restart #restart sshd Service
+
+$ ssh mars@localhost
+__        _______ _     ____ ___  __  __ _____   _____ ___  
+\ \      / / ____| |   / ___/ _ \|  \/  | ____| |_   _/ _ \ 
+ \ \ /\ / /|  _| | |  | |  | | | | |\/| |  _|     | || | | |
+  \ V  V / | |___| |__| |__| |_| | |  | | |___    | || |_| |
+   \_/\_/  |_____|_____\____\___/|_|  |_|_____|   |_| \___/                                                            
+ __  __    _    ____  ____  
+|  \/  |  / \  |  _ \/ ___| 
+| |\/| | / _ \ | |_) \___ \ 
+| |  | |/ ___ \|  _ < ___) |
+|_|  |_/_/   \_\_| \_\____/
+mars@localhost's password:
+```
 
 ## Reference
 
