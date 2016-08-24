@@ -144,3 +144,9 @@ It means to install `openssl` lib first. To install openssl:
 $ sudo apt-get install  openssl libssl-dev.
 then,
 `sudo luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu/` or `sudo luarocks install luasec`.
+
+
+### Reference
+
+* [Lua 5.3 Manual](http://www.lua.org/manual/5.3/)
+* [Lua Tutorial](http://www.runoob.com/lua/lua-tutorial.html)
