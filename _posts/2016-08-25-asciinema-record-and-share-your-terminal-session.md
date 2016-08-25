@@ -50,7 +50,7 @@ https://asciinema.org/a/5aayecan8c2bfe4gwroquqraj
 
 You can get the share link for a specific asciicast by clicking on "Share" link on asciicast page.
 
-<script type="text/javascript" src="https://asciinema.org/a/5aayecan8c2bfe4gwroquqraj.js" id="asciicast-5aayecan8c2bfe4gwroquqraj" async></script>
+<script type="text/javascript" src="https://asciinema.org/a/5aayecan8c2bfe4gwroquqraj.js" id="asciicast-5aayecan8c2bfe4gwroquqraj" async data-autoplay="true" data-size="small"></script>
 
 
 # Reference
