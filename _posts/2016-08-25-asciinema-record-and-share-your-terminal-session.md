@@ -55,5 +55,12 @@ You can get the share link for a specific asciicast by clicking on "Share" link 
 
 # Reference
 
-* [1]: https://asciinema.org/docs/installation
-* [2]: https://asciinema.org/docs
+* [Asciinema Home][2]
+* [Installation][1]
+* [How it works][3]
+* [Asciinema Usage][4]
+
+[1]: https://asciinema.org/docs/installation
+[2]: https://asciinema.org/docs
+[3]: https://asciinema.org/docs/how-it-works
+[4]: https://asciinema.org/docs/usage
