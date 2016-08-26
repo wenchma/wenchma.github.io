@@ -8,7 +8,9 @@ date: 2016-08-25 17:03:30
 
 # What's Asciinema ?
 
-Asciinema is a cool command-line based terminal session recorder, easy to share with javascript player.
+Asciinema is a cool text-based terminal session recorder, easy to share with javascript player.
+
+> :bulb: Just pause the player and copy-paste the content you want, it is text, text, text.
 
 # Installation
 
