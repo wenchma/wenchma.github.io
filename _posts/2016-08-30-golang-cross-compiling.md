@@ -13,8 +13,8 @@ date: 2016-08-30 16:51:23
 
 ## Environment variables `make.bash` supports
 
-* GOARCH: The target architecture for installed packages and tools. Examples are amd64, 386, arm, ppc64.
-* GOOS: The target operating system for installed packages and tools. Examples are linux, darwin, windows, netbsd.
+* GOARCH: The target architecture for installed packages and tools. Examples are `amd64`, `386`, `arm`, `ppc64`.
+* GOOS: The target operating system for installed packages and tools. Examples are `linux`, `darwin`, `windows`, `netbsd`.
 * CGO_ENABLED: Controls cgo usage during the build. Set it to 1 to include all cgo related files, `.c` and `.go` file with "cgo"
   build directive in the build.
 
