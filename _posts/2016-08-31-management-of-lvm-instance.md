@@ -87,13 +87,13 @@ tgtd            4150 root   11u   BLK  253,2      0t0 255606978 /dev/cinder-volu
 在删除Volume Group之前，必须先将Volume Group内的Logical Volume先删
 除，然后将Volume Group停止作用，然后再删除Volume Group。
 
- ```
-1、先卸载/dev/VG1/lv1的挂载点。
+```
+1) 先卸载/dev/VG1/lv1的挂载点。
 #umunt /dev/VG1/lv1
-2、删除Logical Volume。
+2) 删除Logical Volume。
 #lvremove /dev/VG1/lv1
-3、停止Volume Group作用。
+3) 停止Volume Group作用。
 #vgchange -a n VG1
-4、删除Volume Group。
+4) 删除Volume Group。
 #vgremove VG1
 ```
