@@ -25,6 +25,9 @@ github_username:  wenchma
 # Build settings
 markdown: kramdown
 
+disqus:
+  shortname: wenchma
+
 locals:
   tech: Tech
   life: Life
