@@ -1,5 +1,4 @@
 permalink: /:year/:month/:day/:title.html
-paginate: 10
 markdown: redcarpet
 comments: true
 
@@ -22,6 +21,10 @@ rss_url: /pages/atom.xml
 twitter_username: wenchma
 github_username:  wenchma
 
+# paginate settings
+paginate: 10
+paginate_path: "/page:num/"
+
 # Build settings
 markdown: kramdown
 
@@ -38,3 +41,4 @@ locals:
 
 gems:
   - jemoji
+  - jekyll-paginate
