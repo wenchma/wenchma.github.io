@@ -1,5 +1,7 @@
 language: ruby
 rvm:
   - 2.1
+install:
+  - gem install jekyll-paginate
 script:
-- bundle exec jekyll build
+  - bundle exec jekyll build
