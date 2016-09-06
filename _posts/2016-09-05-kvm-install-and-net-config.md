@@ -64,11 +64,11 @@ date: 2016-09-05 16:21:20
    b. 重启网络：service network restart （或者：sudo /etc/init.d/networking restart）
    重启之后 ifconfig 会发现宿主机已经有了网桥(br0)配置如下：
 
-   ![](img/br0.jpg)
+   ![](/img/br0.jpeg)
 
    c. 使用 `brctl show` 查看网桥列表，发现 br0已经和宿主机网卡绑定：
 
-   ![](img/btctl.jpg)
+   ![](/img/brctl.jpeg)
 
    至此，KVM的虚机已经可以且默认使用网桥的方式与宿主机连接。
 
@@ -77,11 +77,11 @@ date: 2016-09-05 16:21:20
 
    在第五步，要选中 `Customize configuration before install` 选项，再 `Finish`，同时在下面的`Advanced options`选项，可以看到虚机与宿主机是网桥连接。
 
-   ![](img/config-vm.jpg)
+   ![](/img/config-vm.jpeg)
 
    点finish之后，进入下面的虚机配置界面
 
-   ![](img/setting.jpg)
+   ![](/img/setting.jpeg)
 
    选择左下角的 Add Hardware，弹窗中选择添加 Network（即添加了一个网卡），配置好后继续安装即可。
    虚机安装好后，Toolbar上（右上角），为多个网卡连接网络即可。
