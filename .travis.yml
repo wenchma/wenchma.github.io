@@ -5,5 +5,6 @@ install:
   - gem install jekyll
   - gem install jekyll-paginate
   - gem install html-proofer
+  - gem install jemoji
 script:
   - bundle exec jekyll build
