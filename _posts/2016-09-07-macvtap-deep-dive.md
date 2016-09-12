@@ -15,3 +15,39 @@ Each virtual interface has its own MAC address distinct from the physical interf
 Frames sent to or from the virtual interfaces are mapped to the physical interface, which is called the lower interface.
 
 ![](/img/vtap1.jpg)
+
+
+A Tap interface is a software-only interface. Instead of passing frames to and from a physical Ethernet card, the frames are read and written by a user space program. The kernel makes the Tap interface available via the /dev/tapN device file, where N is the index of the network interface.
+
+A Macvtap interface combines the properties of  these two; it is an virtual interface with a tap-like software interface. A Macvtap interface can be created using the ip command:
+
+```bash
+$ sudo ip link add link eth0 name macvtap1 type macvtap mode vepa | bridge | private | passthru
+
+$ sudo ip netns exec ns1 ip link show macvtap1
+9: macvtap1@if2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN 
+mode DEFAULT group default qlen 500
+    link/ether fe:4d:6a:7e:2c:de brd ff:ff:ff:ff:ff:ff
+```
+
+The device file corresponding to the new macvtap interface with index 9 is /dev/tap9. This device file is 
+created by udev.
+
+```bash
+$ ls -l /dev/tap9 
+crw------- 1 root root 248, 1  4月  6 13:09 /dev/tap9
+```
+
+A user space program can open this device file and use it to send and receive Ethernet frames over it. When the kernel transmits a frame via the interface macvtap1, instead of sending it to a physical Ethernet card,  it makes it available for reading from this file by the user space program. Correspondingly, when the user space program writes the content of an Ethernet frame to the file /dev/tap9, the kernel’s networking code sees the frame as if it had been received via the device macvtap1.
+
+Macvtap is implemented in the Linux kernel, and must be configured when compiling the kernel, either as a module or as a built-in feature. The setting can be found under Device Drivers → Network device support → MAC-VLAN based tap driver. The tap driver is dependent on `MAC-VLAN support` in the same category, so you need to enable that too.
+
+## MacVTap modes
+
+A Macvtap device can function in one of four modes: Virtual Ethernet Port Aggregator (VEPA) mode, Bridge mode, Private mode, and passthru mode. The modes determine how the tap endpoints communicate between each other.
+
+### 1. Virtual Ethernet Port Aggregator mode
+
+In this mode, which is the default, data between endpoints on the same lower device are sent via the lower device (Ethernet card) to the physical switch the lower device is connected to. This mode requires that the switch supports ‘Reflective Relay’ mode, also known as `Hairpin` mode. Reflective Relay means the switch can send back a frame on the same port it received it on. Unfortunately, most switches today do not yet support this mode.
+
+![](/img/hairpin.jpg)
