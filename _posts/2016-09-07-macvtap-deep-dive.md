@@ -51,3 +51,22 @@ A Macvtap device can function in one of four modes: Virtual Ethernet Port Aggreg
 In this mode, which is the default, data between endpoints on the same lower device are sent via the lower device (Ethernet card) to the physical switch the lower device is connected to. This mode requires that the switch supports ‘Reflective Relay’ mode, also known as `Hairpin` mode. Reflective Relay means the switch can send back a frame on the same port it received it on. Unfortunately, most switches today do not yet support this mode.
 
 ![](/img/hairpin.jpg)
+
+
+### 2. Bridge mode
+
+When the MacVTap device is in Bridge mode, the endpoints can communicate directly without sending the data out via the lower device. When using this mode, there is no need for the physical switch to support Reflective Relay mode.
+
+![](/img/bridge.jpg)
+
+
+### 3. Private mode
+
+In Private mode the nodes on the same MacVTap device can never talk to each other, regardless if the physical switch supports Reflective Relay mode or not, because the broadcast and multicast  traffic are dropped by MacVTap device. Use this mode when you want to isolate the virtual machines connected to the endpoints from each other, but not from the outside network.
+
+![](/img/private.jpg)
+
+
+### 4. passthru mode
+ 
+This feature attaches a virtual function of a SRIOV(Single root I/O virtualization) capable physical NIC directly to a VM without losing the migration capability.  The traffic processing in kernel MacVTap is skipped, hardware takes the processing instead, so the Host CPU resources are released.  All packets are sent to the VF/IF of the configured network device. SRIOV capable NIC supports MacVTap passthrough and PCI passthrough. MacVTap passthrough works only for MacVTap net device, PCI passthrough works for any PCI device, aims for Guest OS directly using Host PIC hardware for efficiency. Depending on the capabilities of the device additional prerequisites or limitations may apply; for example, on Linux this requires kernel 2.6.38 or newer.
