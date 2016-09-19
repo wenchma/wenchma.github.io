@@ -4,7 +4,7 @@ layout: base
 <div class="row">
   <div class="col-md-13 aside3-title">
     <br>
-    <h2 id="#identifier">{{ page.title }}</h2>
+    <h2 id="#identifier">{{ post.title }}</h2>
   </div>
   <div class="col-md-13 aside3-content">
     <br />
@@ -13,7 +13,7 @@ layout: base
     </div>
     <br />
     <div class="row">
-      {% for book in page.books %}
+      {% for book in post.books %}
         <div class="col-md-12">
           <div class="panel panel-primary">
             <div class="panel-heading">{{ book.title }}</div>
