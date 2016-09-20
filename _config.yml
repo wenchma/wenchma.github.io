@@ -21,6 +21,8 @@ rss_url: /pages/atom.xml
 twitter_username: wenchma
 github_username:  wenchma
 
+favicon: /img/logo.png
+
 # paginate settings
 paginate: 10
 paginate_path: "/page:num/"
