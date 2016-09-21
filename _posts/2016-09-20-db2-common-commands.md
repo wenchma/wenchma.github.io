@@ -88,7 +88,7 @@ date: 2016-09-20 17:49:26
    # db2 list application [show detail which applications have open connections]
    ```
 
-2. SQL Operations
+3. SQL Operations
 
    ```
    # Check DB2 verison
@@ -129,13 +129,13 @@ date: 2016-09-20 17:49:26
    db2 log messages: db2diag.log
    ```
 
- 3. gskit change passwd:
+4. gskit change passwd:
 
-   $ gsk8capicmd_64 -keydb -changepw -db "dbclient.kdb" -pw "oldPassword" -new_pw "newPassword" -stash
-   # must specify "-stash", if not, Support for one or more communications protocols specified in the DB2COMM environment variable failed to start successfully.
+    $ gsk8capicmd_64 -keydb -changepw -db "dbclient.kdb" -pw "oldPassword" -new_pw "newPassword" -stash
+    # must specify "-stash", if not, Support for one or more communications protocols specified in the DB2COMM environment variable failed to start successfully.
 
 
-4. Steps to remove DB2 from Unix/Linux:
+5. Steps to remove DB2 from Unix/Linux:
 
    **1) Remove DB**
 
