@@ -11,13 +11,13 @@ date: 2016-09-20 17:49:26
 
 ### 1. Connect to database(default port: 50000)
 
-   ```
-   DB2 CONNECT TO db_test user username using password
-   ```
+```
+DB2 CONNECT TO db_test user username using password
+```
 
 ### 2. Database Operation
 
-   ```
+```
    # Shutdwon the connection
    DB2 CONNECT RESET
 
@@ -87,11 +87,11 @@ date: 2016-09-20 17:49:26
    SELECT * FROM TABLE1 FETCH FIRST 100 ROWS ONLY
 
    # db2 list application [show detail which applications have open connections]
-   ```
+```
 
 ### 3. SQL Operations
 
-   ```
+```
    # Check DB2 verison
    select * from sysibm.sysvERSIONS
    #create database
@@ -128,56 +128,58 @@ date: 2016-09-20 17:49:26
    [i] DB2COMM=SSL,TCPIP
 
    db2 log messages: db2diag.log
-   ```
+```
 
 ## gskit change passwd:
 
-    $ gsk8capicmd_64 -keydb -changepw -db "dbclient.kdb" -pw "oldPassword" -new_pw "newPassword" -stash
-    # must specify "-stash", if not, Support for one or more communications protocols specified in the DB2COMM environment variable failed to start successfully.
+```
+$ gsk8capicmd_64 -keydb -changepw -db "dbclient.kdb" -pw "oldPassword" -new_pw "newPassword" -stash
+# must specify "-stash", if not, Support for one or more communications protocols specified in the DB2COMM environment variable failed to start successfully.
+```
 
 
 ## Steps to remove DB2 from Unix/Linux:
 
-   **1) Remove DB**
+**1) Remove DB**
 
-   ```
+```
    (1)su - db2inst1
    (2)db2 list db directory
    (3)db2 drop db <db name>
    (4)db2 force application all  - Stop all database applications
    (5)db2stop  -  stop db2 database
    (6)db2 terminate - stop db2 instance
-   ```
+```
 
-   **2) Remove Instance**
+**2) Remove Instance**
 
-   ```
+```
 	(1)su - root
 	(2)cd <db2 dir>/instance
 	(3)./db2ilist
 	(4)./db2idrop <instance name>
-   ```
+```
 
-   **3) Remove das**
+**3) Remove das**
 
-   ```
+```
 	(1)su - root
 	(2)cd <db2 dir>/instance
 	(3)./daslist
 	(4)./dasdrop <das user>
-   ```
+```
 
-   **4) Uninstall**
+**4) Uninstall**
 
-   ```
+```
 	(1)su - root
 	(2)cd <db2 dir>/install
 	(3)./db2_deinstall -a
-   ```
+```
 
-   **5) Remove users ( db2inst1,db2fenc1,dasusr1)**
+**5) Remove users ( db2inst1,db2fenc1,dasusr1)**
 
-   ```
+```
 	userdel -r <username>
 	please lookinto the file /etc/passwd before and after you deleted users
-   ```
+```
