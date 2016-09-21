@@ -9,12 +9,13 @@ date: 2016-09-20 17:49:26
 
 ## Common Commands
 
-1. Connect to database(default port: 50000)
+### 1. Connect to database(default port: 50000)
 
    ```
    DB2 CONNECT TO db_test user username using password
    ```
-2. Database Operation
+
+### 2. Database Operation
 
    ```
    # Shutdwon the connection
@@ -88,7 +89,7 @@ date: 2016-09-20 17:49:26
    # db2 list application [show detail which applications have open connections]
    ```
 
-3. SQL Operations
+### 3. SQL Operations
 
    ```
    # Check DB2 verison
@@ -129,13 +130,13 @@ date: 2016-09-20 17:49:26
    db2 log messages: db2diag.log
    ```
 
-4. gskit change passwd:
+## gskit change passwd:
 
     $ gsk8capicmd_64 -keydb -changepw -db "dbclient.kdb" -pw "oldPassword" -new_pw "newPassword" -stash
     # must specify "-stash", if not, Support for one or more communications protocols specified in the DB2COMM environment variable failed to start successfully.
 
 
-5. Steps to remove DB2 from Unix/Linux:
+## Steps to remove DB2 from Unix/Linux:
 
    **1) Remove DB**
 
