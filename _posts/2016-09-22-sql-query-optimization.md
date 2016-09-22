@@ -62,7 +62,7 @@ select * from table1 t1 where Exists (select 1 from table2 t2 where t1.id=t2.id)
 > 用in的朋友注意了，当参数超过1000个，数据库就挂了。（oracle 10g数据库）
 
 
-### 4.使用绑定变量
+## 4.使用绑定变量
 
 Oracle数据库软件会缓存已经执行的sql语句，复用该语句可以减少执行时间。
 复用是有条件的，sql语句必须相同
@@ -78,7 +78,7 @@ delete from XXX where pk_id=?;
 select pk_id,column1 from XXX where pk_id=?;
 ```
 
-### 5.少用*
+## 5.少用*
 
 因为要把`*`解析为列名，这时就查询数据字典，自然就耗费了许多时间。
 很多朋友很喜欢用*，比如：select * from XXX;
