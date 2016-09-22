@@ -2,7 +2,7 @@
 layout: post
 title: "DB2 Common Commands"
 categories: tech
-tags: db2
+tags: db2 sql
 date: 2016-09-20 17:49:26
 ---
 
