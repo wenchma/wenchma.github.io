@@ -177,4 +177,4 @@ BenchmarkBufioWriteString-8	50000000	       157 ns/op
 ok  	command-line-arguments	16.099s
 ```
 
-[1](http://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go)
+[1]: http://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go
