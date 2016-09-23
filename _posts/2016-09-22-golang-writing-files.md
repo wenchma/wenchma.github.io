@@ -159,7 +159,7 @@ func BenchmarkBufioWriteString(b *testing.B) {
 }
 ```
 
-**Testing Results:
+**Testing Results**:
 
 ```
 BenchmarkIOWriteString-8	 1000000	      1907 ns/op
