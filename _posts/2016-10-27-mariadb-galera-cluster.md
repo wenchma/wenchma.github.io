@@ -189,5 +189,45 @@ sudo systemctl status mysql
 
 `Oct 27 14:55:15 node1 systemd[1]: Stopped MariaDB database server.`
 
+
+## Installation of MaxScale
+
+```
+$ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8167EE24
+Executing: /tmp/tmp.0eSIWOtBEE/gpg.1.sh --keyserver
+keyserver.ubuntu.com
+--recv-keys
+8167EE24
+gpg: requesting key 8167EE24 from hkp server keyserver.ubuntu.com
+gpg: key 8167EE24: public key "MariaDBManager" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+$ sudo add-apt-repository 'deb http://downloads.mariadb.com/MaxScale/latest/ubuntu xenial main'
+```
+
+用上面的ubuntu repo的方式不能找到deb package, 那就自己[build maxscale from source][3],
+
+```
+# install required pkgs
+sudo apt-get install git build-essential libssl-dev libaio-dev ncurses-dev \
+bison flex cmake perl libtool libcurl4-openssl-dev libpcre3-dev tcl tcl-dev uuid uuid-dev
+
+# Close source codes
+git clone https://github.com/mariadb-corporation/MaxScale
+
+mkdir build
+cd build
+
+# Configure maxscale build
+cmake ../MaxScale -DBUILD_TESTS=Y
+
+# Compile, test and install MaxScale
+make
+make test
+sudo make install
+```
+
+
 [1]: https://en.wikipedia.org/wiki/Split-brain_(computing)
 [2]: https://linux.die.net/man/1/rsync
+[3]: https://mariadb.com/kb/en/mariadb-enterprise/building-mariadb-maxscale-from-source-code/
