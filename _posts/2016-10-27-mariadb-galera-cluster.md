@@ -45,7 +45,9 @@ Thus need to cache the writesets in memory, if the system runs out of memory eit
 or the cluster will block waiting for the state transfer to end, may require manual restoration of the administrative tables.
 
 
-## Installation
+## Part I - MariaDB
+
+### Installation
 
 **Environment topology**
 
@@ -82,7 +84,7 @@ $ sudo apt-get install mariadb-server
 $ sudo apt-get install rsync
 ```
 
-## Configuration
+### Configuration
 
 Add all of the configuration on the first node, then copy it to the others.
 By default, MariaDB loads the `/etc/mysql/my.cnf` conf file, and `/etc/mysql/conf.d` directory for additional configuration.
@@ -127,7 +129,7 @@ wsrep_node_name=node1
 bind-address=0.0.0.0
 ```
 
-### Configuring the Remaining Nodes
+#### Configuring the Remaining Nodes
 
 Copy the configuration from the first node, only update the `Galera Node Configuration` to use the IP address or resolvable domain name of current node.
 
@@ -149,7 +151,7 @@ wsrep_node_address=192.168.100.203
 wsrep_node_name=node3
 ```
 
-## Open the firewall for MariaDB on all nodes
+### Open the firewall for MariaDB on all nodes
 
 ```
 $ sudo ufw status
@@ -175,7 +177,7 @@ $ sudo ufw allow 3306,4567,4568,4444/tcp
 $ sudo ufw allow 4567/udp
 ```
 
-## Start the cluster
+### Start the cluster
 
 First, stop the MariaDB service so that cluster can apply the confand be brought online.
 
@@ -190,7 +192,9 @@ sudo systemctl status mysql
 `Oct 27 14:55:15 node1 systemd[1]: Stopped MariaDB database server.`
 
 
-## Installation of MaxScale
+## Part II - MaxScale
+
+### Installation
 
 ```
 $ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8167EE24
@@ -227,6 +231,198 @@ make test
 sudo make install
 ```
 
+### Configuration
+
+First, create a new MaxScale user, this user will login and get the credentials from the privileges table
+(you authenticate against MaxScale technically) and monitor each instance.
+
+```
+MariaDB [(none)]> create user 'maxscale'@'%' identified by 'maxscale';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [(none)]> grant select on mysql.db to 'maxscale'@'%';
+Query OK, 0 rows affected (0.02 sec)
+
+MariaDB [(none)]> grant select on mysql.user to 'maxscale'@'%';
+Query OK, 0 rows affected (0.01 sec)
+
+MariaDB [(none)]> grant show databases on *.* to 'maxscale'@'%';
+Query OK, 0 rows affected (0.01 sec)
+```
+
+If `maxscale` system user doesn't exist, create it first:
+
+```
+# groupadd -g 999 maxscale
+# grep maxscale /etc/group
+maxscale:x:999:
+# useradd -g 999 -u 999 maxscale
+# grep maxscale /etc/passwd
+maxscale:x:999:999::/home/maxscale:
+```
+
+Finally below is the configuration /etc/maxscale.cnf:
+
+```
+# MaxScale documentation on GitHub:
+# https://github.com/mariadb-corporation/MaxScale/blob/master/Documentation/Documentation-Contents.md
+
+# Global parameters
+#
+# Complete list of configuration options:
+# https://github.com/mariadb-corporation/MaxScale/blob/master/Documentation/Getting-Started/Configuration-Guide.md
+
+[maxscale]
+threads=1
+
+# Server definitions
+#
+# Set the address of the server to the network
+# address of a MySQL server.
+#
+
+[node1]
+type=server
+address=node1
+port=3306
+protocol=MySQLBackend
+
+[node2]
+type=server
+address=node2
+port=3306
+protocol=MySQLBackend
+
+[node3]
+type=server
+address=node3
+port=3306
+protocol=MySQLBackend
+
+# Monitor for the servers
+#
+# This will keep MaxScale aware of the state of the servers.
+# MySQL Monitor documentation:
+# https://github.com/mariadb-corporation/MaxScale/blob/master/Documentation/Monitors/MySQL-Monitor.md
+
+[Galera Monitor]
+type=monitor
+module=galeramon
+servers=node1,node2,node3
+user=maxscale
+passwd=maxscale
+monitor_interval=10000
+
+# Service definitions
+#
+# Service Definition for a read-only service and
+# a read/write splitting service.
+#
+
+# ReadConnRoute documentation:
+# https://github.com/mariadb-corporation/MaxScale/blob/master/Documentation/Routers/ReadConnRoute.md
+
+#[Read-Only Service]
+#type=service
+#router=readconnroute
+#servers=server1
+#user=myuser
+#passwd=mypwd
+#router_options=slave
+
+# ReadWriteSplit documentation:
+# https://github.com/mariadb-corporation/MaxScale/blob/master/Documentation/Routers/ReadWriteSplit.md
+
+[Read-Write Service]
+type=service
+router=readwritesplit
+servers=node1,node2,node3
+user=maxscale
+passwd=maxscale
+max_slave_connections=100%
+
+# This service enables the use of the MaxAdmin interface
+# MaxScale administration guide:
+# https://github.com/mariadb-corporation/MaxScale/blob/master/Documentation/Reference/MaxAdmin.md
+
+[MaxAdmin Service]
+type=service
+router=cli
+
+[Read-Write Listener]
+type=listener
+service=Read-Write Service
+protocol=MySQLClient
+port=4006
+
+[MaxAdmin Listener]
+type=listener
+service=MaxAdmin Service
+protocol=maxscaled
+socket=default
+
+```
+
+### Verify your MaxScale
+
+```
+# systemctl start maxscale
+# systemctl status maxscale
+● maxscale.service - MariaDB MaxScale Database Proxy
+   Loaded: loaded (/usr/lib/systemd/system/maxscale.service; disabled; vendor preset: enabled)
+   Active: active (running) since Wed 2016-11-02 03:40:02 UTC; 13min ago
+  Process: 24017 ExecStart=/usr/local/bin/maxscale --user=maxscale (code=exited, status=0/SUCCESS)
+  Process: 24011 ExecStartPre=/usr/bin/install -d /var/run/maxscale -o maxscale -g maxscale (code=exited, status=0/SUCCESS)
+ Main PID: 24019 (maxscale)
+    Tasks: 5
+   Memory: 1.7M
+      CPU: 761ms
+   CGroup: /system.slice/maxscale.service
+           └─24019 /usr/local/bin/maxscale --user=maxscale
+
+Nov 02 03:40:02 node1 maxscale[24019]: Loaded module MySQLClient: V1.1.0 from /usr/local/lib/maxscale/libMySQLClient.so
+Nov 02 03:40:02 node1 maxscale[24019]: Listening connections at 0.0.0.0:4006 with protocol MySQL
+Nov 02 03:40:02 node1 maxscale[24019]: Loaded module maxscaled: V2.0.0 from /usr/local/lib/maxscale/libmaxscaled.so
+Nov 02 03:40:02 node1 maxscale[24019]: Listening connections at /tmp/maxadmin.sock with protocol MaxScale Admin
+Nov 02 03:40:02 node1 maxscale[24019]: MaxScale started with 1 server threads.
+Nov 02 03:40:02 node1 maxscale[24019]: Started MaxScale log flusher.
+Nov 02 03:40:02 node1 systemd[1]: Started MariaDB MaxScale Database Proxy.
+Nov 02 03:40:02 node1 maxscale[24019]: Server changed state: node1[node1:3306]: new_slave. [Running] -> [Slave, Synced, Running]
+Nov 02 03:40:02 node1 maxscale[24019]: Server changed state: node2[node2:3306]: new_master. [Running] -> [Master, Synced, Running]
+Nov 02 03:40:02 node1 maxscale[24019]: Server changed state: node3[node3:3306]: new_slave. [Running] -> [Slave, Synced, Running]
+```
+
+The `maxadmin` command may be used to confirm that MaxScale is running and the services, listeners etc have been correctly configured.
+
+```
+MaxScale> list servers
+Servers.
+-------------------+-----------------+-------+-------------+--------------------
+Server             | Address         | Port  | Connections | Status              
+-------------------+-----------------+-------+-------------+--------------------
+node1              | node1           |  3306 |           0 | Slave, Synced, Running
+node2              | node2           |  3306 |           0 | Master, Synced, Running
+node3              | node3           |  3306 |           0 | Slave, Synced, Running
+-------------------+-----------------+-------+-------------+--------------------
+
+MaxScale> list services
+Services.
+--------------------------+----------------------+--------+---------------
+Service Name              | Router Module        | #Users | Total Sessions
+--------------------------+----------------------+--------+---------------
+Read-Write Service        | readwritesplit       |      1 |     1
+MaxAdmin Service          | cli                  |      2 |     4
+--------------------------+----------------------+--------+---------------
+
+MaxScale> list listeners
+Listeners.
+---------------------+--------------------+-----------------+-------+--------
+Service Name         | Protocol Module    | Address         | Port  | State
+---------------------+--------------------+-----------------+-------+--------
+Read-Write Service   | MySQLClient        | *               |  4006 | Running
+MaxAdmin Service     | maxscaled          | default         |     0 | Running
+---------------------+--------------------+-----------------+-------+--------
+```
 
 [1]: https://en.wikipedia.org/wiki/Split-brain_(computing)
 [2]: https://linux.die.net/man/1/rsync
