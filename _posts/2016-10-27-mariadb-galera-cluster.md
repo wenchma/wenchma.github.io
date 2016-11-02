@@ -179,9 +179,7 @@ $ sudo ufw allow 4567/udp
 
 ### Start the cluster
 
-First, stop the MariaDB service so that cluster can be brought online.
-
-Second, stop MariaDB on all Three Servers:
+First, stop the MariaDB service on all Three Servers so that cluster can be brought online.
 
 `sudo systemctl stop mysql`
 
@@ -193,7 +191,7 @@ sudo systemctl status mysql
 Oct 27 14:55:15 node1 systemd[1]: Stopped MariaDB database server.
 ```
 
-Third, bring up three nodes, need to use a special startup script ( `galera_new_cluster` ) to start first node.
+Second, bring up first node, need to use a special startup script ( `galera_new_cluster` ) to start first node.
 This script allows systemd to pass the `--wsrep-new-cluster` parameter.
 `systemctl start mysql` would fail because there are no nodes running for the first node to connect with.
 
