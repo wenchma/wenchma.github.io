@@ -179,9 +179,9 @@ $ sudo ufw allow 4567/udp
 
 ### Start the cluster
 
-First, stop the MariaDB service so that cluster can apply the confand be brought online.
+First, stop the MariaDB service so that cluster can be brought online.
 
-Stop MariaDB on all Three Servers:
+Second, stop MariaDB on all Three Servers:
 
 `sudo systemctl stop mysql`
 
@@ -189,8 +189,53 @@ systemctl doesn't display the outcome, so run the following command to make sure
 
 sudo systemctl status mysql
 
-`Oct 27 14:55:15 node1 systemd[1]: Stopped MariaDB database server.`
+````
+Oct 27 14:55:15 node1 systemd[1]: Stopped MariaDB database server.
+```
 
+Third, bring up three nodes, need to use a special startup script ( `galera_new_cluster` ) to start first node.
+This script allows systemd to pass the `--wsrep-new-cluster` parameter.
+`systemctl start mysql` would fail because there are no nodes running for the first node to connect with.
+
+```
+$ sudo galera_new_cluster
+
+node1:~$ mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
+Enter password: 
++--------------------+-------+
+| Variable_name      | Value |
++--------------------+-------+
+| wsrep_cluster_size | 1     |
++--------------------+-------+
+```
+
+Finally, bring up the remaining two nodes:
+
+**node2**:
+
+```
+node3:~$ sudo systemctl start mariadb
+node2:~$ mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
+Enter password: 
++--------------------+-------+
+| Variable_name      | Value |
++--------------------+-------+
+| wsrep_cluster_size | 2     |
++--------------------+-------+
+```
+
+**node3**:
+
+```
+node3:~$ sudo systemctl start mariadb
+node3:~$ mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
+Enter password: 
++--------------------+-------+
+| Variable_name      | Value |
++--------------------+-------+
+| wsrep_cluster_size | 3     |
++--------------------+-------+
+```
 
 ## Part II - MaxScale
 
