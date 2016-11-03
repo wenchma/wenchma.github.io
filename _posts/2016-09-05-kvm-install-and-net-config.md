@@ -24,20 +24,27 @@ date: 2016-09-05 16:21:20
    (参考链接：http://tech.ddvip.com/2013-01/1359458551189749.html，下面是需要注意的问题)
 
  
-	安装之后，执行下面的命令看KVM是否安装成功：
-	kvm-ok
-	输出信息：
-	INFO: /dev/kvm exists
-	KVM acceleration can be used
-	如果提示信息为：
-	INFO: KVM (vmx) is disabled by your BIOS(KVM [vmx]被你的BIOS禁用)
-	HINT: Enter your BIOS setup and enable Virtualization Technology (VT)
-	则需要进入的BIOS设置界面，启用虚拟化技术[VT]，设置步骤为：
-	进入BIOS后，选择ADVANCED，然后至 PROCESSOR CONFIGURATION进去找到，
-	INTEL (R) VIRTUALIZATION TECHNOLOGY ，设置成ENABLE，保存退出 。
+安装之后，执行下面的命令看KVM是否安装成功：
+kvm-ok
+输出信息：
+
+```
+INFO: /dev/kvm exists
+KVM acceleration can be used
+```
+如果提示信息为：
+
+```
+INFO: KVM (vmx) is disabled by your BIOS(KVM [vmx]被你的BIOS禁用)
+HINT: Enter your BIOS setup and enable Virtualization Technology (VT)
+```
+
+则需要进入的BIOS设置界面，启用虚拟化技术[VT]，设置步骤为：
+进入BIOS后，选择ADVANCED，然后至 PROCESSOR CONFIGURATION进去找到，
+INTEL (R) VIRTUALIZATION TECHNOLOGY ，设置成ENABLE，保存退出 。
 
 
-	KVM安装好并链接到KVM服务器（sudo virt-manager -c qemu:///system kvmhost）之后，每次打开KVM管理界面时，可以使用命令：virt-manager
+KVM安装好并链接到KVM服务器（sudo virt-manager -c qemu:///system kvmhost）之后，每次打开KVM管理界面时，可以使用命令：virt-manager
 
  
 2. 网络配置
@@ -45,21 +52,27 @@ date: 2016-09-05 16:21:20
 
    a.修改宿主机配置文件 ： /etc/network/interfaces
    原文件内容：
-   # interfaces(5) file used by ifup(8) and ifdown(8) 
-   auto lo 
-   iface lo inet loopback
+
+```
+# interfaces(5) file used by ifup(8) and ifdown(8) 
+auto lo 
+iface lo inet loopback
+```
 
    添加网桥设置内容，修改后文件：
-   # interfaces(5) file used by ifup(8) and ifdown(8) 
-   auto lo 
-   iface lo inet loopback 
 
-   auto br0 
-   iface br0 inet dhcp 
-      bridge_ports eth0 
+```
+# interfaces(5) file used by ifup(8) and ifdown(8) 
+auto lo 
+iface lo inet loopback 
+
+auto br0 
+iface br0 inet dhcp 
+   bridge_ports eth0 
    bridge_stp off 
-      bridge_fd 0 
-      bridge_maxage 0
+   bridge_fd 0 
+   bridge_maxage 0
+```
 
    b. 重启网络：service network restart （或者：sudo /etc/init.d/networking restart）
    重启之后 ifconfig 会发现宿主机已经有了网桥(br0)配置如下：
