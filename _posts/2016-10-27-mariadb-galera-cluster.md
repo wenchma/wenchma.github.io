@@ -235,6 +235,34 @@ Enter password:
 +--------------------+-------+
 ```
 
+### Adjust the Debian Maintenance User
+
+Currently, Ubuntu and Debian's MariaDB servers do routine maintenance such as log rotation as a special maintenance user.
+When we installed MariaDB, the credentials for that user were randomly generated, stored in /etc/mysql/debian.cnf,
+and inserted into the MariaDB's mysql database.
+When bringing up our cluster, the password from the first node was replicated to the other nodes,
+so the value in debian.cnf no longer matches the password in the database. 
+
+So copy first node's `debian.cnf` to the remaining nodes.
+The file looks like as follows:
+
+```
+# cat /etc/mysql/debian.cnf 
+# Automatically generated for Debian scripts. DO NOT TOUCH!
+[client]
+host     = localhost
+user     = debian-sys-maint
+password = Err7Z0NeieDbZW39
+socket   = /var/run/mysqld/mysqld.sock
+[mysql_upgrade]
+host     = localhost
+user     = debian-sys-maint
+password = Err7Z0NeieDbZW39
+socket   = /var/run/mysqld/mysqld.sock
+basedir  = /usr
+```
+check the password is correct, if not, update datatbase.
+
 ## Part II - MaxScale
 
 ### Installation
