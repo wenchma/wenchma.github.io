@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "MariaDB Galera Cluster"
+title: "MariaDB Galera Cluster With MaxScale"
 categories: tech
-tags: mariadb
+tags: mariadb maxscale
 date: 2016-10-27 17:01:42
 ---
 
