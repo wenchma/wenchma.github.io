@@ -235,6 +235,18 @@ Enter password:
 +--------------------+-------+
 ```
 
+verify mariadb cluster memebers:
+
+```
+$ mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_incoming_addresses'"
+Enter password: 
++--------------------------+----------------------------------------------------------------+
+| Variable_name            | Value                                                          |
++--------------------------+----------------------------------------------------------------+
+| wsrep_incoming_addresses | 192.168.100.201:3306,192.168.100.202:3306,192.168.100.203:3306 |
++--------------------------+----------------------------------------------------------------+
+```
+
 ### Adjust the Debian Maintenance User
 
 Currently, Ubuntu and Debian's MariaDB servers do routine maintenance such as log rotation as a special maintenance user.
@@ -262,6 +274,13 @@ socket   = /var/run/mysqld/mysqld.sock
 basedir  = /usr
 ```
 check the password is correct, if not, update datatbase.
+
+### Verify Replication
+
+On node1, you can create one database and a talbe, then insert into a row data;
+insert into another row data on node2 and node3, so verify the data is the same
+on all three nodes.
+
 
 ## Part II - MaxScale
 
