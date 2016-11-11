@@ -191,9 +191,36 @@ sudo systemctl status mysql
 Oct 27 14:55:15 node1 systemd[1]: Stopped MariaDB database server.
 ```
 
-Second, bring up first node, need to use a special startup script ( `galera_new_cluster` ) to start first node.
+Second, bring up first node, need to use a special startup script ( `galera_new_cluster`  这个只在版本10.1.8 及更高版本有效) to start first node.
 This script allows systemd to pass the `--wsrep-new-cluster` parameter.
 `systemctl start mysql` would fail because there are no nodes running for the first node to connect with.
+
+我们看一下这个脚本的内容:
+
+```
+node1:~$ cat /usr/bin/galera_new_cluster 
+#!/bin/sh
+
+# This file is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+
+VERSION="10.1.18-1~xenial"
+COMPILATION_COMMENT="mariadb.org binary distribution"
+
+systemctl set-environment _WSREP_NEW_CLUSTER='--wsrep-new-cluster' && \
+    systemctl start ${1:-mariadb}
+
+systemctl set-environment _WSREP_NEW_CLUSTER=''
+```
+
+注意，如果遇到如下错误, 就说明没有用这个脚本启动:
+
+```
+[ERROR] WSREP: gcs/src/gcs_core.cpp:gcs_core_open():208: Failed to open backend connection: -110 (Connection timed out)
+```
+
 
 ```
 $ sudo galera_new_cluster
@@ -212,7 +239,7 @@ Finally, bring up the remaining two nodes:
 **node2**:
 
 ```
-node3:~$ sudo systemctl start mariadb
+node2:~$ sudo systemctl start mariadb
 node2:~$ mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
 Enter password: 
 +--------------------+-------+
