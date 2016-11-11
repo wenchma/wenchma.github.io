@@ -262,7 +262,24 @@ Enter password:
 +--------------------+-------+
 ```
 
-verify mariadb cluster memebers:
+启动如果遇到如下错误:
+
+```
+[ERROR] Plugin 'InnoDB' init function returned error.
+[ERROR] Plugin 'InnoDB' registration as a STORAGE ENGINE failed.
+[Note] Plugin 'FEEDBACK' is disabled.
+[ERROR] Unknown/unsupported storage engine: InnoDB
+[ERROR] Aborting
+```
+
+解决方法为删除　ib_logfile0 和 ib_logfile1 in /var/lib/mysql，或者注释下行配置
+
+```
+# innodb_log_file_size  = 50M
+```
+
+
+**verify mariadb cluster memebers**:
 
 ```
 $ mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_incoming_addresses'"
