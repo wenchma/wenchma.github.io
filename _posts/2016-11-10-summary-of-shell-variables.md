@@ -10,10 +10,10 @@ Shell 编程有丰富的变量使用规则以实现各种各样的需求，这�
 
 **特殊符号意义**：
 
-* $n        $1 the first parameter,$2 the second...
-* $#        The number of command-line parameters.
-* $0        The name of current program.
-* $?        Last command or function's return value.
-* $$        The program's PID.
-* $!        Last program's PID.
-* $@        Save all the parameters. 
+* $n - $1 the first parameter,$2 the second...
+* $# - The number of command-line parameters.
+* $0 - The name of current program.
+* $? - Last command or function's return value.
+* $$ - The program's PID.
+* $! - Last program's PID.
+* $@ - Save all the parameters. 
