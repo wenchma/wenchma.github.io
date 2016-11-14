@@ -558,6 +558,10 @@ MaxAdmin Service     | maxscaled          | default         |     0 | Running
 ---------------------+--------------------+-----------------+-------+--------
 ```
 
+## Further Reading
+
+* [Load Balancing MySQL with HAProxy](https://www.digitalocean.com/community/tutorials/how-to-use-haproxy-to-set-up-mysql-load-balancing--3)
+
 [1]: https://en.wikipedia.org/wiki/Split-brain_(computing)
 [2]: https://linux.die.net/man/1/rsync
 [3]: https://mariadb.com/kb/en/mariadb-enterprise/building-mariadb-maxscale-from-source-code/
