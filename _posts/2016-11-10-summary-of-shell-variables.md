@@ -27,21 +27,21 @@ file=/dir1/dir2/dir3/my.file.txt
 
 | variable                 | Description                                                                         |
 |--------------------------|-------------------------------------------------------------------------------------|
-| $var or ${var}           | return value of var, 注意区别$var_str 和${var}_str                                  |
+| $var or ${var}           | return value of var, 注意区别$var_str 和${var}_str                                    |
 | ${var:0:5}               | return first 5 characters, result is hello                                          |
 | ${var:5}                 | return from start_index 5 to end, result is world                                   |
-| ${file#*/}               | 删掉第一个/及其左边的字符串： dir1/dir2/dir3/my.file.txt                            |
-| ${file##*/}              | 删掉最后一个 / 及其左边的字符串：my.file.txt                                        |
-| ${file%/*}               | 删掉最后一个 / 及其右边的字符串：/dir1/dir2/dir3                                    |
-| ${file%%/*}              | 删掉第一个 / 及其右边的字符串：(空值)                                               |
+| ${file#*/}               | 删掉第一个/及其左边的字符串： dir1/dir2/dir3/my.file.txt                                 |
+| ${file##*/}              | 删掉最后一个 / 及其左边的字符串：my.file.txt                                             |
+| ${file%/*}               | 删掉最后一个 / 及其右边的字符串：/dir1/dir2/dir3                                         |
+| ${file%%/*}              | 删掉第一个 / 及其右边的字符串：(空值)                                                    |
 | ${file/.}                | delete first . : /dir1/dir2/dir3/myfile.txt                                         |
-| ${file/dir/path}         | 将第一个dir 替换为path：/path1/dir2/dir3/my.file.txt                                |
-| ${file//dir/path}        | 将全部dir 替换为 path：/path1/path2/path3/my.file.txt                               |
+| ${file/dir/path}         | 将第一个dir 替换为path：/path1/dir2/dir3/my.file.txt                                  |
+| ${file//dir/path}        | 将全部dir 替换为 path：/path1/path2/path3/my.file.txt                                 |
 | ${var:-newstring}        | if var is empty or undefined, return newsting, if not, reutrn var                   |
 | ${var:=newstring}        | if var is empty or undefined, return newsting and assign to var, if not, reutrn var |
 | ${var:+newstring}        | if var is empty, return newstring, if not, return empty                             |
 | ${var:?newstring}        | if var is empty or undefined, write newstring to stderr, if not, return var         |
 | $(command)               | return the stdout of runing command                                                 |
-| $((算术表达式))          | $((5+6*2)) return 17 , i=5 $((i*6)) return 30                                       |
-| let a=${i}*6             | i=5, a=30, but a=${i}*6 return a=5*6 						 |
-| array                    |a=(1 2 3 4 5),$a = 1,${a[@或*]} = str with items, ${#a[@或*]}=len, ${a[index]}       |
+| $((算术表达式))            | $((5+6x2)) return 17 , i=5 $((ix6)) return 30                                       |
+| let a=${i}*6             | i=5, a=30, but a=${i}x6 return a=5x6 						                         |
+| array                    |a=(1 2 3 4 5),$a = 1,${a[@或 * ]} = str with items, ${#a[@或 * ]}=len, ${a[index]}    |
