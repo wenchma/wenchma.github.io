@@ -42,6 +42,6 @@ file=/dir1/dir2/dir3/my.file.txt
 | ${var:+newstring}        | if var is empty, return newstring, if not, return empty                             |
 | ${var:?newstring}        | if var is empty or undefined, write newstring to stderr, if not, return var         |
 | $(command)               | return the stdout of runing command                                                 |
-| $((算术表达式))            | $((5+6x2)) return 17 , i=5 $((ix6)) return 30                                       |
-| let a=${i}*6             | i=5, a=30, but a=${i}x6 return a=5x6 						                         |
+| $((算术表达式))            | $((5+6 * 2)) return 17 , i=5 $((i * 6)) return 30                                   |
+| let a=${i} * 6           | i=5, a=30, but a=${i} * 6 return a=5 * 6 						                     |
 | array                    |a=(1 2 3 4 5),$a = 1,${a[@或 * ]} = str with items, ${#a[@或 * ]}=len, ${a[index]}    |
