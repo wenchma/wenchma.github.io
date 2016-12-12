@@ -88,3 +88,29 @@ network.host: localhost
 # http.port: 9200
 #
 ```
+
+then run the ELK server:
+
+```bash
+$ sudo service elasticsearch restart
+
+$ sudo update-rc.d elasticsearch defaults 95 10
+
+$ curl localhost:9200
+{
+  "name" : "The Blank",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "4akK1qP2S1OntBkv5OCpHQ",
+  "version" : {
+    "number" : "2.4.2",
+    "build_hash" : "161c65a337d4b422ac0c805f284565cf2014bb84",
+    "build_timestamp" : "2016-11-17T11:51:03Z",
+    "build_snapshot" : false,
+    "lucene_version" : "5.5.2"
+  },
+  "tagline" : "You Know, for Search"
+}
+
+```
+
+未完待续......
