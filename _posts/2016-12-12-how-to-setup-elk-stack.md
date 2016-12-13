@@ -250,4 +250,218 @@ $ sudo service logstash restart
 
 $ sudo update-rc.d logstash defaults 96 9
 ```
+
+## Install Kibana Dashboard
+
+ELK provides several sample Kibana dashboards and Beats index patterns that can help you get started with Kibana.
+Although we won't use the dashboards in this tutorial, we'll load them anyway so we can use the Filebeat index pattern that it includes.
+
+First, download the sample dashboards archive to your home directory:
+
+```bash
+$ curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.1.0.zip
+
+$ unzip beats-dashboards-1.1.0.zip
+
+$ ls beats-dashboards-1.1.0
+CHANGELOG.md  dashboards  load.ps1  load.sh  Makefile  README.md  save  screenshots
+
+```
+
+And load the sample dashboards, visualizations and Beats index patterns into Elasticsearch with these commands:
+
+```bash
+$ cd beats-dashboards-1.1.0
+
+./load.sh
+```
+These are the index patterns that we just loaded:
+
+* [packetbeat-*]
+* [topbeat-*]
+* [filebeat-*]
+* [winlogbeat-*]
+
+download a filebeat index pattern to load:
+
+```bash
+$ curl -O https://gist.githubusercontent.com/thisismitch/3429023e8438cc25b86c/ raw/d8c479e2a1adcea8b1fe86570e42abab0f10f364/filebeat-index-template.json
+
+$ curl -XPUT 'http://localhost:9200/_template/filebeat?pretty' -d@filebeat-index-template.json
+{
+  "acknowledged" : true
+}
+```
+
+When using Kibana, we will select the Filebeat index pattern as our default.
+The ELK Server is now ready to receive filebeat data, let's configure filebeat in client server.
+
+## Install filebeat for client
+
+```bash
+$ echo "deb https://packages.elastic.co/beats/apt stable main" | sudo tee -a /etc/apt/sources.list.d/beats.list
+
+$ sudo apt-get update 
+
+$ sudo apt-get install filebeat
+```
+
+modify the existing prospector to send syslog and auth.log to Logstash. Under paths, comment out the `- /var/log/*.log` file.
+This will prevent Filebeat from sending every .log in that directory to Logstash. Then add new entries for syslog and auth.log.
+It should look like following:
+
+```bash
+filebeat:
+  # List of prospectors to fetch data.
+  prospectors:
+    # Each - is a prospector. Below are the prospector specific configurations
+    -
+      # Paths that should be crawled and fetched. Glob based paths.
+      # To fetch all ".log" files from a specific level of subdirectories
+      # /var/log/*/*.log can be used.
+      # For each file found under this path, a harvester is started.
+      # Make sure not file is defined twice as this can lead to unexpected behaviour.
+      paths:
+        #- /var/log/*.log
+        - /var/log/auth.log
+        - /var/log/syslog
+
+    # in. Default: log
+    document_type: syslog
+
+  # Name of the registry file. Per default it is put in the current working
+  # directory. In case the working directory is changed after when running
+  # filebeat again, indexing starts from the beginning again.
+  registry_file: /var/lib/filebeat/registry
+
+# Multiple outputs may be used.
+output:
+
+  ### Elasticsearch as output
+  elasticsearch:
+    # Array of hosts to connect to.
+    # Scheme and port can be left out and will be set to the default (http and 9200)
+    # In case you specify and additional path, the scheme is required: http://localhost:9200/path
+    # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
+    hosts: ["localhost:9200"]
+
+  ### Logstash as output
+  logstash:
+    # The Logstash hosts
+    hosts: ["192.168.0.11:5044"]
+
+    # Optional TLS. By default is off.
+    tls:
+      # List of root certificates for HTTPS server verifications
+      certificate_authorities: ["/var/lib/logstash/private/logstash-forwarder.crt"]
+
+shipper:
+
+
+logging:
+
+  # To enable logging to files, to_files option has to be set to true
+  files:
+
+    # Configure log file size limit. If limit is reached, log file will be
+    # automatically rotated
+    rotateeverybytes: 10485760 # = 10MB
+```
+
+Now restart Filebeat to load the conf changes:
+
+```bash
+$ sudo service filebeat restart
+$ sudo update-rc.d filebeat defaults 95 10
+```
+
+And later we can open URL http://ELK-SERVER-IP:5601 or http://ELK-SERVER-DOMAIN-NAME:5601, you will find the syslogs when clicked file-beats-* in the left sidebar.
+
+
+## Install Kibana
+
+```bash
+$ cd /opt
+
+$ wget https://download.elastic.co/kibana/kibana/kibana-4.5.3-linux-x64.tar.gz
+
+$ sudo tar -xzf kibana-4.5.3-linux-x64.tar.gz # cd kibana-4.5.3-linux-x64/
+
+$ sudo mv kibana-4.5.3-linux-x64 kibana 
+$ cd /opt/kibana/config
+$ sudo vi kibana.yml
+```
+
+Change parameters in /opt/kibana/config/kibana.yml as follows:
+
+```
+server.port: 5601
+server.host: "0.0.0.0"
+elasticsearch.url: "http://localhost:9200"
+```
+
+run kibana:
+
+```
+/opt/kibana/bin$ sudo ./kibana 
+  log   [03:31:52.803] [info][status][plugin:kibana] Status changed from uninitialized to green - Ready
+  log   [03:31:52.862] [info][status][plugin:elasticsearch] Status changed from uninitialized to yellow - Waiting for Elasticsearch
+  log   [03:31:52.888] [info][status][plugin:kbn_vislib_vis_types] Status changed from uninitialized to green - Ready
+  log   [03:31:52.902] [info][status][plugin:markdown_vis] Status changed from uninitialized to green - Ready
+  log   [03:31:52.911] [info][status][plugin:metric_vis] Status changed from uninitialized to green - Ready
+  log   [03:31:52.930] [info][status][plugin:spyModes] Status changed from uninitialized to green - Ready
+  log   [03:31:52.936] [info][status][plugin:statusPage] Status changed from uninitialized to green - Ready
+  log   [03:31:52.941] [info][status][plugin:table_vis] Status changed from uninitialized to green - Ready
+  log   [03:31:52.964] [info][listening] Server running at http://0.0.0.0:5601
+  log   [03:31:52.972] [info][status][plugin:elasticsearch] Status changed from yellow to green - Kibana index ready
+```
+
+You can create systemd daemon for kibana using `pleaserun` (pip install pleaserun):
+
+```
+$ sudo pleaserun -p systemd -v default --install /opt/kibana/bin/kibana -p 5601 -H 0.0.0.0 -e http://localhost:9200
+No name given, setting reasonable default based on the executable {:name=>"kibana", :level=>:warn}
+Writing file {:destination=>"/etc/default/kibana"}
+Writing file {:destination=>"/etc/systemd/system/kibana.service"}
+ubuntu@node3:~$ sudo systemctl status kibana.service 
+
+```
+
+* -p specify the port no that kibana will bind
+* -H specify the host IP address where Kibana will run.
+* -e option specify the  elasticsearch IP address.
+
+```
+$ sudo systemctl start kibana.service 
+$ sudo systemctl status kibana.service 
+● kibana.service - no description given
+   Loaded: loaded (/etc/systemd/system/kibana.service; disabled; vendor preset: enabled)
+   Active: active (running) since Fri 2016-12-09 04:02:29 UTC; 2s ago
+ Main PID: 7613 (node)
+    Tasks: 9
+   Memory: 69.4M
+      CPU: 2.213s
+   CGroup: /system.slice/kibana.service
+           └─7613 /opt/kibana/bin/../node/bin/node /opt/kibana/bin/../src/cli -p 5601 -H 0.0.0.0 -e http://localhost:9200
+
+Dec 09 04:02:29 node3 systemd[1]: Started no description given.
+
+$ sudo netstat -pltn| grep '5601'
+tcp        0      0 0.0.0.0:5601            0.0.0.0:*               LISTEN      7613/node
+```
+
+
+Now you can open http://ELK-SERVER-IP:5601 or http://ELK-SERVER-DOMAIN-NAME:5601. After entering the "kibanaadmin" credentials,
+you should see a page prompting you to configure a default index pattern:
+
+Go ahead and select [filebeat-*] from the Index Patterns menu (left side), then click the Star (Set as default index) button to
+set the Filebeat index as the default.
+
+![](/img/kinana-1.gif)
+
+Now click the `Discover` link in the top navigation bar. By default, this will show you all of the log data over the last 15 minutes.
+You should see a histogram with log events, with log messages below:
+
+![](/img/kibana-2.jpg)
+
 未完待续......
