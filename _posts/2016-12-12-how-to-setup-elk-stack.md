@@ -113,4 +113,141 @@ $ curl localhost:9200
 
 ```
 
+## Install logstash
+
+The public GPG key is same as ELK, so just create source list and install.
+
+```bash
+$ echo 'deb http://packages.elastic.co/logstash/2.4/debian stable main' | sudo tee /etc/apt/sources.list.d/logstash-2.4.x.list
+deb http://packages.elastic.co/logstash/2.4/debian stable main
+
+$ sudo apt-get update
+
+$ sudo apt-get install logstash
+```
+
+### Configure Logstash
+
+Here we use Filebeat to ship logs from Client to ELK Server, so create an SSL certificate and key pair to verify the identity of ELK Server.
+
+```bash
+$ sudo mkdir -p /var/lib/logstash/private
+
+$ sudo chown logstash:logstash /var/lib/logstash/private
+
+$ sudo chmod go-rwx /var/lib/logstash/private
+
+
+
+```
+
+If you don't setup DNS, change `/CN=192.168.0.11` to your real server's private IP address. To avoid `TLS handshake error`, 
+add IP to the subjectAltName (SAN) field of the SSL certificate to generate the cert.
+
+```bash
+$ sudo vi /etc/ssl/openssl.cnf
+
+
+[ v3_ca ]
+
+
+# Extensions for a typical CA
+
+subjectAltName=IP:192.168.0.11
+
+$ sudo openssl req -config /etc/ssl/openssl.cnf -x509  -batch -nodes -newkey rsa:2048 -keyout /var/lib/logstash/private/logstash-forwarder.key -out /var/lib/logstash/private/logstash-forwarder.crt -subj /CN=192.168.0.11
+```
+
+remember that copy the cert to all of servers whose logs will be sent to logstash by filebeat.
+
+Logstash configuration consists of three sections: inputs, filters, and outputs.
+
+#### 1. Create a conf file called 02-beats-input.conf and set up the "filebeat" input: 
+
+```bash
+sudo vi /etc/logstash/conf.d/02-beats-input.conf
+
+input {
+  beats {
+    port => 5044
+    ssl => true
+    ssl_certificate => "/var/lib/logstash/private/logstash-forwarder.crt"
+    ssl_key => "/var/lib/logstash/private/logstash-forwarder.key"
+    }
+}
+```
+
+The `filebeat` input is listening on tcp port 5044.
+
+#### 2. Create "filebeat" filter named 10-syslog-filter.conf to add a filter for syslog.
+
+```bash
+$ sudo vi /etc/logstash/conf.d/10-syslog-filter.conf 
+
+filter {
+  if [type] == "syslog" {
+    grok {
+      match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{host}" ]
+    }
+    syslog_pri { }
+    date {
+      match => [ "syslog_timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+    }
+  }
+}
+```
+
+This filter looks for logs that are labeled as "syslog" type (by Filebeat), and it will try to use `grok` to parse incoming syslog logs to make it structured
+and query-able.
+
+#### 3. Create "filebeat" output named 30-elasticsearch-output.conf
+
+```bash
+$ sudo vi /etc/logstash/conf.d/30-elasticsearch-output.conf 
+
+output {
+  elasticsearch {
+    hosts => ["localhost:9200"]
+    sniffing => true
+    manage_template => false
+    index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+    document_type => "%{[@metadata][type]}"
+  }
+}
+
+```
+
+This output basically configures Logstash to store the beats data in Elasticsearch which is running at localhost:9200,
+in an index named after the beat used (filebeat, in our case).
+
+Test the Logstash configuration:
+
+```bash
+$ sudo service logstash configtest
+log4j:WARN No appenders could be found for logger (io.netty.util.internal.logging.InternalLoggerFactory).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Configuration OK
+```
+
+Just ignore the log4j WARN and the configuration is OK.
+
+Then run the followng cmd:
+
+```bash
+# cd /opt/logstash/bin && ./logstash -f /etc/logstash/conf.d/02-beats-input.conf
+```
+
+You will find that the logstash has started a pipeline and processing the syslogs. Once you are sure that logstash is processing the syslogs,
+combine `02-beats-input.conf`, `10-syslog-filter.conf` and `30-elasticsearch-output`.conf as `logstash.conf` in the directory /etc/logstash/
+
+Restart logstash to reload new configuration.
+
+```bash
+$ sudo service logstash restart
+
+$ sudo update-rc.d logstash defaults 96 9
+```
 未完待续......
