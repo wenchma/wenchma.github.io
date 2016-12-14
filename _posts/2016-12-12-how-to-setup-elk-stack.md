@@ -457,7 +457,7 @@ you should see a page prompting you to configure a default index pattern:
 Go ahead and select [filebeat-*] from the Index Patterns menu (left side), then click the Star (Set as default index) button to
 set the Filebeat index as the default.
 
-![](/img/kinana-1.gif)
+![](/img/kibana-1.gif)
 
 Now click the `Discover` link in the top navigation bar. By default, this will show you all of the log data over the last 15 minutes.
 You should see a histogram with log events, with log messages below:
