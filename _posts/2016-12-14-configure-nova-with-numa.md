@@ -150,4 +150,4 @@ Check the instance libvirt xml configuration:
 
 For libvirt xml details, refer to [libvirt.xml](https://libvirt.org/formatdomain.html)
 
-> Note. It's possible fail to migrate an instance which has been configured to use CPU pinning.
+> :warning: It's possible fail to migrate an instance which has been configured to use CPU pinning.
