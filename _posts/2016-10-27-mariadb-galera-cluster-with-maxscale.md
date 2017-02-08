@@ -539,6 +539,10 @@ node2              | node2           |  3306 |           0 | Master, Synced, Run
 node3              | node3           |  3306 |           0 | Slave, Synced, Running
 -------------------+-----------------+-------+-------------+--------------------
 
+The write queries are sent to a single server : Master.
+The read queries are spread across multiple servers(Slave by default).
+Synced means a fully fledged member of a Galera cluster.
+
 MaxScale> list services
 Services.
 --------------------------+----------------------+--------+---------------
