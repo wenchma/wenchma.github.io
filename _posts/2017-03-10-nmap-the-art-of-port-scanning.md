@@ -26,11 +26,11 @@ It was originally written by [Gordon Lyon](https://en.wikipedia.org/wiki/Gordon_
 
 4. Find out what ports are open on the machine that you just scanned?
 
-5.Find out if the system is infected with malware or virus.
+5. Find out if the system is infected with malware or virus.
 
 6. Search for unauthorized servers or network service on your network.
 
-7.Find and remove computers which don’t meet the organization’s minimum level of security.
+7. Find and remove computers which don’t meet the organization’s minimum level of security.
 
 
 ## Installation
