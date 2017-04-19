@@ -71,7 +71,7 @@ The script is called after any state change with the following parameters:
 * $2 = name of group or instance
 * $3 = target state of transition (“MASTER”, “BACKUP”, “FAULT”)
 
-```
+```bash
 #!/bin/bash
 
 TYPE=$1
@@ -92,6 +92,6 @@ case $STATE in
                   exit 1
                   ;;
 esac
-``
+```
 
 We can implement haproxy daemon is running on only master node, stop on slave nodes.
