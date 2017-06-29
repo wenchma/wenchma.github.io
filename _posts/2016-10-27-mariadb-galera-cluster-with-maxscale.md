@@ -262,7 +262,7 @@ Enter password:
 +--------------------+-------+
 ```
 
-启动如果遇到如下错误:
+启动一个node如果遇到如下错误:
 
 ```
 [ERROR] Plugin 'InnoDB' init function returned error.
@@ -272,12 +272,27 @@ Enter password:
 [ERROR] Aborting
 ```
 
-解决方法为删除　ib_logfile0 和 ib_logfile1 in /var/lib/mysql，或者注释下行配置
+or
+
+```
+Reversing history:, this member has applied 259 more events than the primary component.Data loss is possible. Aborting
+```
+
+解决方法为删除 grastate.dat, b_logfile0 和 ib_logfile1 in /var/lib/mysql，或者注释下行配置
 
 ```
 # innodb_log_file_size  = 50M
 ```
 
+重启如果遇到如下错误:
+
+```
+[ERROR] WSREP: It may not be safe to bootstrap the cluster from this node.
+It was not the last one to leave the cluster and may not contain all the updates.
+To force cluster bootstrap with this node, edit the grastate.dat file manually and set safe_to_bootstrap to 1 .
+```
+
+Refer to this page: [restart cluster](http://galeracluster.com/documentation-webpages/restartingcluster.html)
 
 **verify mariadb cluster memebers**:
 
