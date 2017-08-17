@@ -654,15 +654,15 @@ innodb_purge_threads=0
 ```
 
 3. Dump all the databases:
-```
+```bash
 # mysqldump -u root -p --all-databases > /root/all-databases.sql
-Enter password: 
-
+Enter password:
 ```
 
 4. After dump is completed, remove /var/lib/mysql/ib* files and restart mysql in normal mode without removing above settings.
 Then begin to import dumped sql data:
-```
+
+```bash
 mysql> source all-databases.sql
 ```
 Once finish importing, remove above setttings for recovery, bring up mysql.
