@@ -643,7 +643,6 @@ innodb_purge_threads=0
 ```
 
 2. Startup the server in safe mode:
-
 ```
 # mysqld_safe --skip-grant-tables &
 [1] 16805
@@ -655,7 +654,6 @@ innodb_purge_threads=0
 ```
 
 3. Dump all the databases:
-
 ```
 # mysqldump -u root -p --all-databases > /root/all-databases.sql
 Enter password: 
