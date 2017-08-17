@@ -577,6 +577,98 @@ MaxAdmin Service     | maxscaled          | default         |     0 | Running
 ---------------------+--------------------+-----------------+-------+--------
 ```
 
+## Part III - Troubleshooting
+
+### 1. MySQL Corrupted InnoDB tables
+
+InnoDB tables get corrupted because of hardware issues, power outages or MySQL bug. MySQL properly crashes and cannot come back,
+see the following similar error:
+
+```
+InnoDB: Assertion failure in thread 139725696382720 in file trx0purge.c line 848
+InnoDB: Failing assertion: purge_sys->purge_trx_no <= purge_sys->rseg->last_trx_no
+InnoDB: We intentionally generate a memory trap.
+InnoDB: Submit a detailed bug report to http://bugs.mysql.com.
+InnoDB: If you get repeated assertion failures or crashes, even
+InnoDB: immediately after the mysqld startup, there may be
+InnoDB: corruption in the InnoDB tablespace. Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.5/en/forcing-innodb-recovery.html
+InnoDB: about forcing recovery.
+170817  6:50:16 [ERROR] mysqld got signal 6 ;
+This could be because you hit a bug. It is also possible that this binary
+or one of the libraries it was linked against is corrupt, improperly built,
+or misconfigured. This error can also be caused by malfunctioning hardware.
+
+To report this bug, see http://kb.askmonty.org/en/reporting-bugs
+
+We will try our best to scrape up some info that will hopefully help
+diagnose the problem, but since we have already crashed, 
+something is definitely wrong and this may fail.
+
+Server version: 5.5.43-MariaDB-1~trusty-wsrep
+key_buffer_size=16777216
+read_buffer_size=131072
+max_used_connections=0
+max_threads=1002
+thread_count=0
+It is possible that mysqld could use up to 
+key_buffer_size + (read_buffer_size + sort_buffer_size)*max_threads = 2214996 K  bytes of memory
+Hope that's ok; if not, decrease some variables in the equation.
+
+Thread pointer: 0x0x0
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+stack_bottom = 0x0 thread_stack 0x30000
+/usr/sbin/mysqld(my_print_stacktrace+0x2e)[0x7f148c27136e]
+/usr/sbin/mysqld(handle_fatal_signal+0x457)[0x7f148be58977]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x10340)[0x7f148a8a9340]
+/lib/x86_64-linux-gnu/libc.so.6(abort+0x148)[0x7f1489f040d8]
+/usr/sbin/mysqld(+0x776c10)[0x7f148c0e2c10]
+/usr/sbin/mysqld(+0x7799c9)[0x7f148c0e59c9]
+/usr/sbin/mysqld(+0x76dc26)[0x7f148c0d9c26]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x8182)[0x7f148a8a1182]
+/lib/x86_64-linux-gnu/libc.so.6(clone+0x6d)[0x7f1489fc447d]
+The manual page at http://dev.mysql.com/doc/mysql/en/crashing.html contains
+information that should help you find out what is causing the crash.'
+```
+
+#### Recovery
+
+1. Set all these 3 parameters to my.cnf:
+```
+port = 8881
+innodb_force_recovery=3
+innodb_purge_threads=0
+```
+
+2. Startup the server in safe mode:
+
+```
+# mysqld_safe --skip-grant-tables &
+[1] 16805
+170817 07:16:57 mysqld_safe Can't log to error log and syslog at the same time.  Remove all --log-error configuration options for --syslog to take effect.
+170817 07:16:57 mysqld_safe Logging to '/var/log/mysql/error.log'.
+170817 07:16:57 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql
+170817 07:16:57 mysqld_safe WSREP: Running position recovery with --log_error='/var/lib/mysql/wsrep_recovery.mTj5Pq' --pid-file='/var/lib/mysql/stage-lon02-honor1-db1-recover.pid'
+170817 07:16:59 mysqld_safe WSREP: Recovered position a02f41fe-04d5-11e5-9361-0e5dbf76d925:35561429
+```
+
+3. Dump all the databases:
+
+```
+# mysqldump -u root -p --all-databases > /root/all-databases.sql
+Enter password: 
+
+```
+
+4. After dump is completed, remove /var/lib/mysql/ib* files and restart mysql in normal mode without removing above settings.
+Then begin to import dumped sql data:
+```
+mysql> source all-databases.sql
+```
+Once finish importing, remove above setttings for recovery, bring up mysql.
+
 ## Further Reading
 
 * [Load Balancing MySQL with HAProxy](https://www.digitalocean.com/community/tutorials/how-to-use-haproxy-to-set-up-mysql-load-balancing--3)
