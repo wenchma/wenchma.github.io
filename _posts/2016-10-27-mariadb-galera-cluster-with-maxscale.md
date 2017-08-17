@@ -661,7 +661,6 @@ Enter password:
 
 4. After dump is completed, remove /var/lib/mysql/ib* files and restart mysql in normal mode without removing above settings.
 Then begin to import dumped sql data:
-
 ```bash
 mysql> source all-databases.sql
 ```
