@@ -45,25 +45,21 @@ The above cronjob means the script is being executed every minute of every hour,
 ## Crontab Examples
 
 1. Execute every Friday 1AM
-
 ```
 0 1 * * 5 /bin/execute/this/script.sh
 ```
 
 2. Execute on workdays 1AM
-
 ```
 0 1 * * 1-5 /bin/execute/this/script.sh
 ```
 
 3. Execute 10 min past after every hour on the 1st of every month
-
 ```
 10 * 1 * * /bin/execute/this/script.sh
 ```
 
 4. Execute every 10 min after every hour on the 1st of every month
-
 ```
 0,10,20,30,40,50 * 1 * * /bin/execute/this/script.sh
 ```
