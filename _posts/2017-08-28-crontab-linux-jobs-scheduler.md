@@ -24,7 +24,7 @@ To edit the list of cronjobs you can run:
 $ crontab -e
 ```
 
-## Crontab Format
+## 1. Crontab Format
 
 Cronjobs are written in the following format:
 
@@ -42,7 +42,7 @@ The five stars represents different date parts in the following order:
 
 The above cronjob means the script is being executed every minute of every hour, every day of month, every month, every day of week.
 
-## Crontab Examples
+## 2. Crontab Examples
 
 1. Execute every Friday 1AM
 ```
@@ -66,7 +66,7 @@ or
 */10 * 1 * * /bin/execute/this/script.sh
 ```
 
-## Special words
+## 3. Special words
 
 For the first (minute) field, you can also put in a keyword instead of a number:
 
@@ -85,7 +85,7 @@ For the first (minute) field, you can also put in a keyword instead of a number:
 @daily /bin/execute/this/script.sh
 ```
 
-## Storing the crontab output
+## 4. Storing the crontab output
 
 ```
 */10 * * * * /bin/execute/this/script.sh >> /var/log/script_output.log 2>&1
@@ -93,7 +93,7 @@ For the first (minute) field, you can also put in a keyword instead of a number:
 
 > Note. 2>&1 tells linux to store stderr in stdout.
 
-## Mailing the crontab output
+## 5. Mailing the crontab output
 
 ```
 MAILTO="yourname@yourdomain.com"
