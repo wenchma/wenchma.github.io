@@ -123,3 +123,36 @@ Using IPv6 endpoints for overlay networks adds 20 bytes of overhead for any prot
 
 For details, refer to `Configure MTU` [1](https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/9/html/networking_guide/sec-mtu)
 [2](https://docs.openstack.org/mitaka/networking-guide/config-mtu.html)
+
+## 5. Neutron L3 agent scheduler issue
+
+```
+2017-06-22 04:47:56.925 1783 ERROR neutron.agent.l3.agent     pm = self._get_state_change_monitor_process_manager()
+2017-06-22 04:47:56.925 1783 ERROR neutron.agent.l3.agent   File "/usr/lib/python2.7/dist-packages/neutron/agent/l3/ha_router.py", line 298, in _get_state_change_monitor_process_manager
+2017-06-22 04:47:56.925 1783 ERROR neutron.agent.l3.agent     default_cmd_callback=self._get_state_change_monitor_callback())
+2017-06-22 04:47:56.925 1783 ERROR neutron.agent.l3.agent   File "/usr/lib/python2.7/dist-packages/neutron/agent/l3/ha_router.py", line 301, in _get_state_change_monitor_callback
+2017-06-22 04:47:56.925 1783 ERROR neutron.agent.l3.agent     ha_device = self.get_ha_device_name()
+2017-06-22 04:47:56.925 1783 ERROR neutron.agent.l3.agent   File "/usr/lib/python2.7/dist-packages/neutron/agent/l3/ha_router.py", line 137, in get_ha_device_name
+2017-06-22 04:47:56.925 1783 ERROR neutron.agent.l3.agent     return (HA_DEV_PREFIX + self.ha_port['id'])[:self.driver.DEV_NAME_LEN]
+2017-06-22 04:47:56.925 1783 ERROR neutron.agent.l3.agent TypeError: 'NoneType' object has no attribute '__getitem__'
+2017-06-22 04:47:56.925 1783 ERROR neutron.agent.l3.agent 
+2017-06-22 04:47:57.731 1783 WARNING neutron.agent.l3.router_info [-] Can't gracefully delete the router c43a1743-e057-40c1-8ff0-dc9150b20357: no router namespace found.
+# vi /usr/lib/python2.7/dist-packages/neutron/scheduler/l3_agent_scheduler.py
+```
+
+Need to apply the following patch:
+
+```
+# cat l3_agent_scheduler.patch
+--- /usr/lib/python2.7/dist-packages/neutron/scheduler/l3_agent_scheduler.py    2017-03-02 00:32:34.973501604 -0600
++++ l3_agent_scheduler.py       2017-03-02 00:32:07.923591569 -0600
+@@ -411,7 +411,7 @@ class AZLeastRoutersScheduler(LeastRoute
+                 target_routers.append(r)
+
+         if not target_routers:
+-            return
++            return []
+
+         return super(AZLeastRoutersScheduler, self)._get_routers_can_schedule(
+context, plugin, target_routers, l3_agent)
+```
