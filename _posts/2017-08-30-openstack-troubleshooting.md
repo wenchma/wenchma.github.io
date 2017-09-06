@@ -9,7 +9,7 @@ date: 2017-08-30 18:22:08
 This post will record the OpenStack troubleshooting, that will benefit the future.
 
 
-### 1. Unable to ping and ssh instance
+## 1. Unable to ping and ssh instance
 
 This is because the security group blocks the traffic, run the following cmds to add security group rules:
 
@@ -18,7 +18,7 @@ $ nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
 $ nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
 ```
 
-### 2. How to create openrc for a tenant
+## 2. How to create openrc for a tenant
 
 ```
 $ openstack project create --description "Project for mars" wenchma
@@ -30,7 +30,7 @@ $ neutron quota-update --tenant-id project_wenchma_id --network -1 --subnet -1 -
 $ nova quota-update  project_wenchma_id  --instances -1 --cores -1 --ram -1 --fixed-ips -1
 ```
 
-### 3. maximum open files limited
+## 3. maximum open files limited
 
 * Find open files limit per process: `ulimit -n`
 * Count all opened files by all process: `lsof | wc -l` or `cat /proc/sys/fs/file-nr`
@@ -114,3 +114,12 @@ Memecached conf file:
 # Maximize core file limit
 # -r
 ```
+
+## 4. Neutron MTU
+
+Neutron uses the MTU of the underlying physical network to calculate the MTU for virtual network including instance network interfaces.
+The underlying physical network with a `1500-byte` MTU yields a `1450-byte` MTU for instances using a `VXLAN` network with IPv4 endpoints.
+Using IPv6 endpoints for overlay networks adds 20 bytes of overhead for any protocol. 
+
+For details, refer to `Configure MTU` [1](https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/9/html/networking_guide/sec-mtu)
+[2](https://docs.openstack.org/mitaka/networking-guide/config-mtu.html)
