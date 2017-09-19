@@ -544,6 +544,17 @@ Nov 02 03:40:02 node1 maxscale[24019]: Server changed state: node3[node3:3306]: 
 The `maxadmin` command may be used to confirm that MaxScale is running and the services, listeners etc have been correctly configured.
 
 ```
+# maxadmin -h localhost -P 6603 list servers -p mariadb
+
+Servers.
+---------+---------+-------+-------------+--------------------
+Server   | Address | Port  | Connections | Status              
+---------+---------+-------+-------------+--------------------
+node1    | node1   | 13306 |          40 | Master, Synced, Running
+node2    | node2   | 13306 |          40 | Slave, Synced, Running
+node3    | node3   | 13306 |           0 | Slave, Synced, Running
+---------+---------+-------+-------------+--------------------
+
 MaxScale> list servers
 Servers.
 -------------------+-----------------+-------+-------------+--------------------
