@@ -168,7 +168,6 @@ The default RabbitMQ max open files is 924 (ulimit minus 100), it is too less in
 
 * Increase RabbitMQ file descriptors limit permanently
 modify `rabbitmq.config` file:
-
 ```
 [
     {rabbit, [
@@ -178,9 +177,7 @@ modify `rabbitmq.config` file:
 ].
 
 ```
-
 > Note. On distributions that use systemd, the OS limits are controlled via a configuration file at
   `/etc/systemd/system/multi-user.target.wants/rabbitmq-server.service`:
   [Service]
-  
   LimitNOFILE=65435
