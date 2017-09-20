@@ -176,7 +176,7 @@ The default RabbitMQ max open files is 924 (ulimit minus 100), it is too less in
   ].
 
   ```
-  > Note. On distributions that use systemd, the OS limits are controlled via a configuration file at
-    `/etc/systemd/system/multi-user.target.wants/rabbitmq-server.service`:
-    [Service]
+  > Note. On distributions that use systemd, the OS limits are controlled via a configuration file at  
+    `/etc/systemd/system/multi-user.target.wants/rabbitmq-server.service`:  
+    [Service]  
     LimitNOFILE=65435
