@@ -156,3 +156,31 @@ Need to apply the following patch:
          return super(AZLeastRoutersScheduler, self)._get_routers_can_schedule(
 context, plugin, target_routers, l3_agent)
 ```
+
+## 6. RabbitMQ Max Open File
+
+The default RabbitMQ max open files is 924 (ulimit minus 100), it is too less in openstack env.
+
+* Increase the num without restarting RabbitMQ
+```
+# rabbitmqctl eval 'file_handle_cache:set_limit(65435).'
+```
+
+* Increase RabbitMQ file descriptors limit permanently
+
+modify `rabbitmq.config` file:
+
+```
+[
+    {rabbit, [
+    		  {file_descriptors, [{total_limit, 65435}]},
+              {vm_memory_high_watermark, 0.6}
+    ]}
+].
+
+```
+
+> Note. On distributions that use systemd, the OS limits are controlled via a configuration file at
+  `/etc/systemd/system/multi-user.target.wants/rabbitmq-server.service`:
+  [Service]
+  LimitNOFILE=65435
