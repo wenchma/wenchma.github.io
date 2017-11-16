@@ -18,7 +18,7 @@ __     __           _   _
 
 ## Firewall Configuration
 
-Vyatta firewall functionality provides the following features:  
+### Vyatta firewall provides the following features:  
 
 * Packet filtering for traffic that traverses the router by using the in and out keywords on an interface.
 * Definable criteria for packet-matching rules, including source IP address, destination IP address, source port, destination port, IP protocol,  
@@ -27,13 +27,13 @@ Vyatta firewall functionality provides the following features:
 * Ability to set the firewall globally for stateful or stateless operation.
 * Advanced firewall capabilities include stateful failover, zone-based firewalls, and time-based firewalls.
 
-Firewall rules perform the following actions:
+## Firewall rules perform the following actions:
 
 * Accept, which means that traffic is allowed and forwarded
 * Drop, which means that traffic is silently discarded
 * Reject, which means that traffic is discarded with an ICMP Port Unreachable message
 
-Applying firewall rules to interfaces:
+### Applying firewall rules to interfaces:
 
 * In. If you apply the instance as in, the firewall filters packets that enter the interface and traverse the Vyatta system. You can apply one in packet filter.
 
