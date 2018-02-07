@@ -22,14 +22,14 @@ usage: bc [options] [file ...]
 ```
 
 The `bc` command supports the following features:
-* 1. Arithmetic operators
-* 2. Increment or Decrement operators
-* 3. Assignment operators
-* 4. Comparison or Relational operators
-* 5. Logical or Boolean operators
-* 6. Math functions
-* 7. Conditional statements
-* 8. Iterative statements
+1. Arithmetic operators
+2. Increment or Decrement operators
+3. Assignment operators
+4. Comparison or Relational operators
+5. Logical or Boolean operators
+6. Math functions
+7. Conditional statements
+8. Iterative statements
 
 # Usage
 
