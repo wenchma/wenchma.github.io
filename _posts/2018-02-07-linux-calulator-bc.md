@@ -6,7 +6,7 @@ tags: linux
 date: 2018-02-07 17:52:33
 ---
 
-# Overview
+## Overview
 
 `bc` command is a linux command line calculator, can do basic mathematical calculations, like `Integer`, `floating` calculations.
 
@@ -31,9 +31,9 @@ The `bc` command supports the following features:
 7. Conditional statements
 8. Iterative statements
 
-# Usage
+## Usage
 
-## 1. Arithmetic operators
+### 1. Arithmetic operators
 
 ```
 $ a=2
@@ -70,7 +70,7 @@ $ echo "scale=2;(7.777+0.005)/1" | bc
 
 ```
 
-## 2. Assignment Operators
+### 2. Assignment Operators
 
 * var = value : Assign the vale to the variable
 * var += value : similar to var = var + value
@@ -86,7 +86,7 @@ $ echo "var=10;var+=9;var" | bc
 
 ```
 
-## 3. Increment and Decrement Operators
+### 3. Increment and Decrement Operators
 
 ```
 $ echo "var=10;var++" | bc
@@ -100,7 +100,7 @@ $ echo "var=10;--var" | bc
 
 ```
 
-## 4. Comparison or Relational Operators
+### 4. Comparison or Relational Operators
 
 These are used to compare 2 numbers. If the comparison is true, then result is 1. Otherwise(false), returns 0.
 
@@ -114,7 +114,7 @@ $ echo "10!=10.0" | bc
 
 ```
 
-## 5. Logical or Boolean Operators
+### 5. Logical or Boolean Operators
 
 ```
 $ echo "10 && 5" | bc
@@ -128,7 +128,7 @@ $ echo "! 0" | bc
 
 ```
 
-## 6.Mathematical Functions
+### 6.Mathematical Functions
 
 ```
 $ echo "length(1.2345)" | bc -l
