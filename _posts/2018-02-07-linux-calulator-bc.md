@@ -147,3 +147,10 @@ $ echo "ibase=2;1111" | bc
 15
 
 ```
+
+### 7. Conditional Statements
+
+```
+$ echo 'n=8;m=10;if(n>m) print "n is greater" else print "m is greater" ' | bc -l
+m is greater
+```
