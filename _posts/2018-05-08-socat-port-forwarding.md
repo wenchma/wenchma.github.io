@@ -8,17 +8,21 @@ date: 2018-05-08 09:43:43
 
 socat is `Socket CAT`, 主要作用是在两个数据流之间建立双向数据通道，支持的协议和链接方式有：IP, TCP, UDP, IPV6, PIPE, EXEC, System, Open, proxy, OpenSSL, Socket...  
 
-## [Download](http://www.dest-unreach.org/socat/download/) or install as follows:
+### [Download](http://www.dest-unreach.org/socat/download/) or install as follows:
 
 ```
 # yum install socat
 
 ```
 
-## Port forwarding
+### Port forwarding
 
 Forward locahost port to remote host:
 
 ```
 # socat TCP4-LISTEN:5432,reuseaddr,fork TCP4:172.30.80.155:5432
 ```
+
+TCP4-LISTEN： 本地建立一个TCP ipv4 协议的监听端口  
+reuseaddr: 绑定本地一个端口  
+fork: 设置多链接模式，即当一个链接建立后，自动复制一个同样的端口再进行监听.
