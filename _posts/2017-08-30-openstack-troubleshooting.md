@@ -180,3 +180,29 @@ The default RabbitMQ max open files is 924 (ulimit minus 100), it is too less in
     `/etc/systemd/system/multi-user.target.wants/rabbitmq-server.service`:  
     [Service]  
     LimitNOFILE=65435
+
+## 7. OpenStack cannot query instances, images, net resources
+
+This id due to deleting the `service` tenant by mistakes.  
+Nova, glance, neutron etc. components will use `service` tenant for authorization.
+
+```
+$ openstack project create --domain default  --description "Service Project" service
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | Service Project                  |
+| domain_id   | e0353a670a9e496da891347c589539e9 |
+| enabled     | True                             |
+| id          | 894cdfa366d34e9d835d3de01e752262 |
+| is_domain   | False                            |
+| name        | service                          |
+| parent_id   | None                             |
++-------------+----------------------------------+
+
+$ openstack role add --project service --user glance admin
+
+$ openstack role add --project service --user nova admin
+
+$ openstack role add --project service --user neutron admin
+```
