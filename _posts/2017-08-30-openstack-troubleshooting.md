@@ -206,3 +206,11 @@ $ openstack role add --project service --user nova admin
 
 $ openstack role add --project service --user neutron admin
 ```
+
+## 8. openvpn subnet routing
+
+Setun a VPN server on openstack, client succeed to connect the VPN server, but cannot ping the other vms in this vpn subnet, need to add a NAT rule:
+
+```
+# iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+```
