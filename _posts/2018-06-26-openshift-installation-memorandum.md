@@ -18,6 +18,16 @@ date: 2018-06-26 16:25:15
 * ansible >= 2.4.5.0
 * hosts - master + node1 + node2
 
+**实现主机相互之间SSH无密钥访问**
+```
+# ssh-keygen -f /root/.ssh/id_rsa -N ''
+
+# for host in master.example.com \
+node1.example.com \
+node2.example.com; \
+do ssh-copy-id -i ~/.ssh/id_rsa.pub $host; \
+done
+```
 ## Installation
 
 **Inventory hosts**:
@@ -96,3 +106,23 @@ tuned : Ensure files are populated from templates ------------------------------
 openshift_facts --------------------------------------------------------------------------------- 3.55s
 openshift_master : Re-gather package dependent master facts ------------------------------------- 3.42s
 ```
+
+## Post-Configuration
+
+**1. Create login user on master**
+
+`# htpasswd -c /etc/origin/master/htpasswd admin`
+
+**2. Grant the administrator permission of cluster to user
+
+```
+# oc login -u system:admin
+
+# ocadm policy add-cluster-role-to-user cluster-admin 
+```
+
+**3. Access openshift web console**
+
+The hostname of master is accessable in the internal domain, so need to set hostname map in `/etc/hosts`, then  
+browse `https://master.exmpale.com:8443`
+
