@@ -111,9 +111,9 @@ openshift_master : Re-gather package dependent master facts --------------------
 
 **1. Create login user on master**
 
-`# htpasswd -c /etc/origin/master/htpasswd admin`
+```# htpasswd -c /etc/origin/master/htpasswd admin```
 
-**2. Grant the administrator permission of cluster to user
+**2. Grant the administrator permission of cluster to user**
 
 ```
 # oc login -u system:admin
