@@ -38,3 +38,7 @@ num  target     prot opt source               destination
 
 12   ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:5432
 ```
+
+* -m 选项来装入一个模块（state）  
+* state 模块能够查看一个封包并判断它的状态是 `NEW`、`ESTABLISHED` 抑或 `RELATED`。 NEW 指进入的封包属于不是由主机初始化的新增连接。
+  ESTABLISHED 及 RELATED 指进入的封包隶属于一条现存的连接，或者与现存的连接有关系。
