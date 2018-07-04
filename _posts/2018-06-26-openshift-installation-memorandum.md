@@ -292,7 +292,7 @@ Solution:
 # cp /etc/origin/master/client-ca-bundle.crt /etc/origin/node/client-ca.crt
 ```
 
-**2. Run etcdctl in openshift master
+**2. Run etcdctl in openshift master**
 
 ```
 # export ETCDCTL_API=3 
