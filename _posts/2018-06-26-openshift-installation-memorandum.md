@@ -291,3 +291,26 @@ Solution:
 ```
 # cp /etc/origin/master/client-ca-bundle.crt /etc/origin/node/client-ca.crt
 ```
+
+**2. Run etcdctl in openshift master
+
+```
+# export ETCDCTL_API=3 
+# export ETCDCTL_KEY=/etc/origin/master/master.etcd-client.key
+# export ETCDCTL_CERT=/etc/origin/master/master.etcd-client.crt
+# export ETCDCTL_CACERT=/etc/origin/master/master.etcd-ca.crt
+
+# etcdctl -w=table member list
++------------------+---------+-----------------+------------------------------+------------------------------+
+|        ID        | STATUS  |      NAME       |          PEER ADDRS          |         CLIENT ADDRS         |
++------------------+---------+-----------------+------------------------------+------------------------------+
+| 2824c7191a56f0fa | started | 192.168.100.228 | https://192.168.100.228:2380 | https://192.168.100.228:2379 |
++------------------+---------+-----------------+------------------------------+------------------------------+
+
+# etcdctl -w=table endpoint status
++------------------------------+------------------+---------+---------+-----------+-----------+------------+
+|           ENDPOINT           |        ID        | VERSION | DB SIZE | IS LEADER | RAFT TERM | RAFT INDEX |
++------------------------------+------------------+---------+---------+-----------+-----------+------------+
+| https://192.168.100.228:2379 | 2824c7191a56f0fa |  3.2.18 |  8.4 MB |      true |         2 |    1647230 |
++------------------------------+------------------+---------+---------+-----------+-----------+------------+
+```
