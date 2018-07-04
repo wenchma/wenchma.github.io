@@ -285,7 +285,7 @@ Jenkins -> 构建环境 -> Inject passwords to the build as environment variable
 
 ## Troubleshooting
 
-### 1. /etc/docker/certs.d/docker-registry.default.svc:5000/node-client-ca.crt: no such file or directory
+**1. /etc/docker/certs.d/docker-registry.default.svc:5000/node-client-ca.crt: no such file or directory**
 
 Solution:
 ```
