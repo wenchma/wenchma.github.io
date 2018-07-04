@@ -282,3 +282,12 @@ fi
 Jenkins -> 构建环境 -> Inject passwords to the build as environment variables
 
 增加`USER_PASSWD` 变量
+
+## Troubleshooting
+
+### 1. /etc/docker/certs.d/docker-registry.default.svc:5000/node-client-ca.crt: no such file or directory
+
+Solution:
+```
+# cp /etc/origin/master/client-ca-bundle.crt /etc/origin/node/client-ca.crt
+```
