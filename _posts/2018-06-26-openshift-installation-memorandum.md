@@ -313,4 +313,18 @@ Solution:
 +------------------------------+------------------+---------+---------+-----------+-----------+------------+
 | https://192.168.100.228:2379 | 2824c7191a56f0fa |  3.2.18 |  8.4 MB |      true |         2 |    1647230 |
 +------------------------------+------------------+---------+---------+-----------+-----------+------------+
+
+```
+
+App可以为etcd集群里面的key授予租约。当key被附加到租约时，它的生存时间被绑定到租约的生存时间，而租约的生存时间相应的被time-to-live (TTL)管理。租约的实际TTL值是不低于最小TTL，由etcd集群选择。一旦租约的TTL到期，租约就过期并且所有附带的key都将被删除。
+```
+# etcdctl lease grant 30
+lease 70fa6439fe9cec5f granted with TTL(30s)
+
+# etcdctl put --lease=70fa6439fe9cec5f foo bar
+OK
+
+# etcdctl get foo
+# etcdctl lease timetolive 70fa6439fe9cec5f
+lease 70fa6439fe9cec5f granted with TTL(0s), remaining(-1s)
 ```
