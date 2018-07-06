@@ -328,3 +328,42 @@ OK
 # etcdctl lease timetolive 70fa6439fe9cec5f
 lease 70fa6439fe9cec5f granted with TTL(0s), remaining(-1s)
 ```
+
+**3. ovs-ofctl: br0: failed to connect to socket (Broken pipe)**
+
+```
+# ovs-ofctl show br0
+2018-07-06T03:37:45Z|00001|vconn|WARN|unix:/var/run/openvswitch/br0.mgmt: version negotiation failed (we support version 0x01, peer supports version 0x04)
+ovs-ofctl: br0: failed to connect to socket (Broken pipe)
+
+# ovs-ofctl show br0 --protocols=OpenFlow13
+OFPT_FEATURES_REPLY (OF1.3) (xid=0x2): dpid:0000daf22cf71e4b
+n_tables:254, n_buffers:256
+capabilities: FLOW_STATS TABLE_STATS PORT_STATS GROUP_STATS QUEUE_STATS
+OFPST_PORT_DESC reply (OF1.3) (xid=0x3):
+ 1(vxlan0): addr:c2:22:92:63:a4:35
+     config:     0
+     state:      0
+     speed: 0 Mbps now, 0 Mbps max
+ 2(tun0): addr:8a:de:c5:8b:a7:fe
+     config:     0
+     state:      0
+     speed: 0 Mbps now, 0 Mbps max
+ 24(veth98eb2c5c): addr:e2:91:5a:45:59:be
+     config:     0
+     state:      0
+     current:    10GB-FD COPPER
+     speed: 10000 Mbps now, 0 Mbps max
+ 25(veth885567df): addr:6a:a2:ed:ed:46:b3
+     config:     0
+     state:      0
+     current:    10GB-FD COPPER
+     speed: 10000 Mbps now, 0 Mbps max
+ LOCAL(br0): addr:da:f2:2c:f7:1e:4b
+     config:     PORT_DOWN
+     state:      LINK_DOWN
+     speed: 0 Mbps now, 0 Mbps max
+OFPT_GET_CONFIG_REPLY (OF1.3) (xid=0x5): frags=nx-match miss_send_len=0
+````
+
+also can use an alias like `ovs-ofctl13='ovs-ofctl --protocols=OpenFlow13'`
