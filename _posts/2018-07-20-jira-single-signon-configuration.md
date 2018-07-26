@@ -22,6 +22,10 @@ edit `/opt/atlassian/jira/atlassian-jira/WEB-INF/web.xml`
     <filter>
       <filter-name>CasSingleSignOutFilter</filter-name>
       <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+      <init-param>
+        <param-name>casServerUrlPrefix</param-name>
+        <param-value>http://mycompany.com/cas/</param-value>
+      </init-param>
     </filter>
     <filter>
       <filter-name>CasAuthenticationFilter</filter-name>
