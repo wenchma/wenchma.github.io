@@ -110,3 +110,11 @@ Just mail one cronjob output:
 ```
 */10 * * * * /bin/execute/this/script.sh 2>&1 | mail -s "Cronjob ouput" yourname@yourdomain.com
 ```
+
+## 6. Special Character 
+
+* % - `%` is a special character to the crontab, which gets translated to a newline
+
+```
+25 9 * * * mysqldump  > `date '+\%Y\%m\%d\%H\%M\%S'`.sql
+```
