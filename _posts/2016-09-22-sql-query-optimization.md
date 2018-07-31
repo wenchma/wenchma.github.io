@@ -112,3 +112,37 @@ select * from (select t.*, rownum rn from (select * from XXX order by value desc
 ## 7.能用一句sql，千万别用2句sql
 
 不解释, :smile: 
+
+## 8. 一次删除所有的数据库表
+
+生成SQL 语句，然后执行：
+```
+SELECT concat('DROP TABLE IF EXISTS ', table_name, ';')
+FROM information_schema.tables
+WHERE table_schema = 'mydb';
+```
+
+## 9. MySQL 字符报错
+
+```
+Incorrect string value: '\xE5\xBE\xAE\xE5\x8D\x9A...' for column 'app_name' at ...
+```
+
+修改当前数据库和表：
+
+```
+
+mysql>  ALTER DATABASE db_name DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+mysql> show create table apps;
+
+mysql> alter table `apps` DEFAULT CHARACTER SET utf8,
+-> modify `app_name` varchar(40) CHARACTER SET utf8 NOT NULL,                                                                      modify `url` varchar(40) CHARACTER SET utf8 NOT NULL,
+-> modify `country` varchar(20) CHARACTER SET utf8 NOT NULL                                                                              
+-> ;
+```
+
+如果是新创建数据库，只需要如下就行：
+
+```
+mysql>  CREATE DATABASE db_name DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+```
