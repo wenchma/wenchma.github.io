@@ -6,6 +6,12 @@ tags: jira sso
 date: 2018-07-20 14:52:23
 ---
 
+## Startup one Jira instance
+
+```
+docker run --name jira -d -v jirahome:/var/atlassian/jira -v jiraconfhome:/opt/atlassian/jira -p 8088:8080 cptactionhank/atlassian-jira-software:latest
+```
+
 ## Configuring Jira with JASIG CAS Client
 
 Jira software version: 7.10
