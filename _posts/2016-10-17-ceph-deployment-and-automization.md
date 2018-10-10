@@ -147,6 +147,21 @@ PG 很长时间没有显示为 acitve 状态,  (不可执行读写请求), PG �
 
 PG 很长时间都不是 clean 状态 (不可以完成之前恢复的操作),  PG 包含对象没有完成相应的复制副本数量, 通常都要执行恢复操作
 
+## Ceph Troubleshooting
+
+### Ceph存储空间查看
+```
+# ceph df
+GLOBAL:
+    SIZE     AVAIL      RAW USED     %RAW USED 
+    100T     73363G       29059G         28.37 
+POOLS:
+    NAME                               ID     USED       %USED     MAX AVAIL     OBJECTS 
+    rbd                                0           8         0        14736G           1 
+    volumes                            13      7339G     21.50        14736G     1893336 
+    vms                                16      1600G      4.69        20211G      413169 
+```
+
 
 
 
