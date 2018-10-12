@@ -120,7 +120,7 @@ gunicorn -w 2 --timeout 60 -b  0.0.0.0:8088 --limit-request-line 0 --limit-reque
 也可指定`-d` 进入Debug模式。
 
 登录后首页无法正常显示如下，
-![](/img/superset-err.jpg)
+![](/img/superset-err.jpg =150x300)
 
 需要安装nodejs 环境，重新build:
 
