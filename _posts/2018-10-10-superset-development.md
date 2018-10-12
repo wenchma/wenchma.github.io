@@ -139,3 +139,47 @@ gunicorn -w 2 --timeout 60 -b  0.0.0.0:8088 --limit-request-line 0 --limit-reque
 ```
 # superset/bin/superset runserver >/dev/null 2>&1 &
 ```
+
+## Troubleshooting
+
+### 1. Superset table view 中列名随机排序，非用户所需
+
+修改如下：
+```python
+    def process_metrics(self):
+        # metrics in TableViz is order sensitive, so metric_dict should be
+        # OrderedDict
+        self.metric_dict = OrderedDict()
+        fd = self.form_data
+        for mkey in METRIC_KEYS:
+```
+
+### 2. Superset metrics 显示为中文有问题
+
+```
+'ascii' codec can't decode byte 0xe6 in position 94: ordinal not in range(128)
+Traceback (most recent call last):
+  File "/root/incubator-superset-0.27.0/superset/viz.py", line 394, in get_df_payload
+    df = self.get_df(query_obj)
+  File "/root/incubator-superset-0.27.0/superset/viz.py", line 201, in get_df
+    if not df.empty:
+AttributeError: 'NoneType' object has no attribute 'empty'
+```
+手动重现, 发现不是Sqlite 的原因, python 要升级到3：
+```
+$ python
+Python 2.7.15 (default, Jun 17 2018, 13:05:56) 
+[GCC 4.2.1 Compatible Apple LLVM 9.0.0 (clang-900.0.39.2)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> "时间".encode("utf8")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xe6 in position 0: ordinal not in range(128)
+```
+
+### 3. 连接MySQL 失败：
+
+要安装相关的依赖包(centos7 要用OS官方的源，不要用mysql官方源):
+```
+pip3 install mysqlclient
+```
