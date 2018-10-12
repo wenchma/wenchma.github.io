@@ -154,6 +154,8 @@ gunicorn -w 2 --timeout 60 -b  0.0.0.0:8088 --limit-request-line 0 --limit-reque
         for mkey in METRIC_KEYS:
 ```
 
+> Note. collections.OrderedDict 会记录key-value添加的顺序，但初始化时传入多个参数，顺序是随机的。
+
 ### 2. Superset metrics 显示为中文有问题
 
 ```
@@ -176,6 +178,9 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 UnicodeDecodeError: 'ascii' codec can't decode byte 0xe6 in position 0: ordinal not in range(128)
 ```
+
+> Note. The default string encoding of python 2.7 is ascii, it conflicts with unicode, the python3
+  can distinguish the unicode string and byte array, default encoding is not ascii.
 
 ### 3. 连接MySQL 失败：
 
