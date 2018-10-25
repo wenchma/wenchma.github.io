@@ -250,3 +250,11 @@ UnicodeDecodeError: 'ascii' codec can't decode byte 0xe6 in position 0: ordinal 
 ```
 pip3 install mysqlclient
 ```
+
+## References
+
+* [Flask QuickStart](https://dormousehole.readthedocs.io/en/latest/quickstart.html)
+* [Flask-AppBuilder offfical Doc](https://flask-appbuilder.readthedocs.io/en/latest/index.html)
+* [Apache Superset offical Doc](https://superset.incubator.apache.org/index.html)
+* [D3-Format: Formatting Numbers](https://github.com/d3/d3-format)
+* [Superset Github](https://github.com/apache/incubator-superset)
