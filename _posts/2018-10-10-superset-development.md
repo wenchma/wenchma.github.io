@@ -139,6 +139,68 @@ gunicorn -w 2 --timeout 60 -b  0.0.0.0:8088 --limit-request-line 0 --limit-reque
 ```
 # superset/bin/superset runserver >/dev/null 2>&1 &
 ```
+修改国际化配置文件： 
+
+## Superset 国际化
+
+Superset 安装的目录为: SUPERSET_LIB=/usr/local/python3/lib/python3.6/site-packages/superset-0.27.0-py3.6.egg
+Flask-Babel是Flask 的国际化翻译工具
+```
+pip install flask-babel
+```
+
+### 1. 修改国际化配置文件： $SUPERSET_LIB/superset/config.py
+```
+# ---------------------------------------------------
+# Babel config for translations
+# ---------------------------------------------------
+# Setup default language
+BABEL_DEFAULT_LOCALE = 'zh'
+# Your application default translation path
+BABEL_DEFAULT_FOLDER = 'superset/translations'
+# The allowed translation for you app
+LANGUAGES = {
+    'en': {'flag': 'us', 'name': 'English'},
+    'it': {'flag': 'it', 'name': 'Italian'},
+    'fr': {'flag': 'fr', 'name': 'French'},
+    'zh': {'flag': 'cn', 'name': 'Chinese'},
+    'ja': {'flag': 'jp', 'name': 'Japanese'},
+    'de': {'flag': 'de', 'name': 'German'},
+    'pt_BR': {'flag': 'br', 'name': 'Brazilian Portuguese'},
+    'ru': {'flag': 'ru', 'name': 'Russian'},
+}
+
+```
+
+### 2. 添加中文翻译，修改messages.po文件
+$SUPERSET_LIB/superset/translations/zh/LC_MESSAGES/
+
+views视图python 文件里有：
+```
+from flask_babel import gettext as __
+from flask_babel import lazy_gettext as _
+```
+说明只有以`__` 和`_`开头的text 才可以进行国际化翻译，
+_('List Databases')
+__('Manage')
+
+然后到messages.po文件中找相应字符串，看是否已经国际化过，若没有，则在文件的尾部添加
+```
+msgid "Manage"
+msgstr "管理"
+```
+msgid就是要国际化的字符串，而msgstr则是要翻译成的语言
+
+### 编译po文件为mo 文件
+
+```
+$ cd $SUPERSET_LIB/superset
+$ pybabel compile -d translations
+```
+
+然后重启superset 即可。
+
+如要处理panel之类的汉化，修改appbuilder的汉化目录，目录在 $PYHTON_LIB/flask_appbuilder/translations/zh
 
 ## Troubleshooting
 
